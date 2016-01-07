@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.Spinner;
 
 public class ViolationsFilterActivity extends AppCompatActivity {
     private static final String TAG = "vio filter log message";
@@ -27,11 +29,16 @@ public class ViolationsFilterActivity extends AppCompatActivity {
         applyBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getApplicationContext(),ViolationsDataActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViolationsDataActivity.class);
                 Log.i(TAG, "apply button clicked");
                 startActivity(intent);
             }
         });
+
+        Spinner dropdown = (Spinner)findViewById(R.id.timeSpinner);
+        String[] items = new String[]{"1/4/2015 17:00", "1/5/2015 17:00", "1/6/2015 17:00","1/7/2015 17:00"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
     }
 
     @Override
