@@ -2,29 +2,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.idt.trunkmon.LoginActivity">
-    <item
-        android:id="@+id/action_content"
-        android:orderInCategory="100"
-        android:title="@string/action_content"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_violations"
-        android:orderInCategory="100"
-        android:title="@string/action_violations"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_thresholds"
-        android:orderInCategory="100"
-        android:title="@string/action_thresholds"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_logout"
-        android:orderInCategory="100"
-        android:title="@string/action_logout"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about"
-        android:orderInCategory="100"
-        android:title="@string/action_about"
-        app:showAsAction="never" />
+    <group android:id="@+id/my_id">
+        <item
+            android:id="@+id/action_content"
+            android:orderInCategory="100"
+            android:title="@string/action_content"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_violations"
+            android:orderInCategory="100"
+            android:title="@string/action_violations"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_thresholds"
+            android:orderInCategory="100"
+            android:title="@string/action_thresholds"
+            app:showAsAction="never" />
+    </group>
+    <group android:id="@+id/my_id2">
+        <item
+            android:id="@+id/action_logout"
+            android:orderInCategory="100"
+            android:title="@string/action_logout"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_about"
+            android:orderInCategory="100"
+            android:title="@string/action_about"
+            app:showAsAction="never" />
+    </group>
 </menu>
