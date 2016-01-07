@@ -12,4 +12,12 @@
     tools:context="net.idt.trunkmon.ThresholdsFilterActivity"
     tools:showIn="@layout/activity_thresholds_filter">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="thresholds filter"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
