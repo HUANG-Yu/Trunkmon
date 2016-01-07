@@ -21,29 +21,77 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reset"
-        android:id="@+id/vResetButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textView5"
-        android:layout_alignEnd="@+id/textView5"
-        android:layout_marginBottom="46dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/timeSpinner"
+        android:layout_alignLeft="@+id/vResetButton"
+        android:layout_alignStart="@+id/vResetButton">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Previous Filter"
-        android:id="@+id/vPreFilterButton"
-        android:layout_alignBottom="@+id/vResetButton"
-        android:layout_centerHorizontal="true" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeSpinner"
+            android:layout_marginTop="23dp"
+            android:layout_below="@+id/textView5"
+            android:layout_toRightOf="@+id/textView5"
+            android:layout_toEndOf="@+id/textView5"
+            android:spinnerMode="dropdown" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="apply"
-        android:id="@+id/vApplyButton"
-        android:layout_alignBottom="@+id/vPreFilterButton"
-        android:layout_toEndOf="@+id/vPreFilterButton" />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner2" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner3" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner4" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reset"
+                android:id="@+id/vResetButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/textView5"
+                android:layout_alignEnd="@+id/textView5"
+                android:layout_marginBottom="46dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous Filter"
+                android:id="@+id/vPreFilterButton"
+                android:layout_alignBottom="@+id/vResetButton"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="apply"
+                android:id="@+id/vApplyButton"
+                android:layout_alignBottom="@+id/vPreFilterButton"
+                android:layout_toEndOf="@+id/vPreFilterButton"
+                android:layout_toRightOf="@+id/vPreFilterButton"/>
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
