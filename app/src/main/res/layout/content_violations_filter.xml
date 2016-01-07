@@ -20,4 +20,30 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"
+        android:id="@+id/vResetButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView5"
+        android:layout_alignEnd="@+id/textView5"
+        android:layout_marginBottom="46dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Filter"
+        android:id="@+id/vPreFilterButton"
+        android:layout_alignBottom="@+id/vResetButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="apply"
+        android:id="@+id/vApplyButton"
+        android:layout_alignBottom="@+id/vPreFilterButton"
+        android:layout_toEndOf="@+id/vPreFilterButton" />
 </RelativeLayout>
