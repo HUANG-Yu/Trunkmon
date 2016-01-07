@@ -13,12 +13,12 @@ import android.widget.Button;
 import android.content.Intent;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "log message";
+    private static final String TAG = "login log message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate");
+        Log.i(TAG, "login activity onCreate");
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(),SelectionsActivity.class);
-                startActivity(intent);
                 Log.i(TAG, "login button clicked");
+                startActivity(intent);
             }
         });
     }
