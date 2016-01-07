@@ -29,6 +29,15 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Button applyBt = (Button)findViewById(R.id.tApplyButton);
+        applyBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
