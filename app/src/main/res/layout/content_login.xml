@@ -15,5 +15,56 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="login"
+        android:id="@+id/textView7" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="user name"
+        android:id="@+id/usrNameLabel"
+        android:layout_marginTop="209dp"
+        android:layout_below="@+id/textView7"
+        android:layout_toRightOf="@+id/textView7"
+        android:layout_toEndOf="@+id/textView7" />
+
+    <EditText
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/usrNameTextFiled"
+        android:text="Yingying"
+        android:layout_alignTop="@+id/usrNameLabel"
+        android:layout_alignRight="@+id/passwordTextField"
+        android:layout_alignEnd="@+id/passwordTextField" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordTextField"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/usrNameTextFiled"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="123456" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="password"
+        android:id="@+id/textView6"
+        android:layout_alignTop="@+id/passwordTextField"
+        android:layout_alignLeft="@+id/usrNameLabel"
+        android:layout_alignStart="@+id/usrNameLabel" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/loginBt"
+        android:layout_below="@+id/passwordTextField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp" />
+
 </RelativeLayout>

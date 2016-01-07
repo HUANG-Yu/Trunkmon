@@ -12,4 +12,12 @@
     tools:context="net.idt.trunkmon.ViolationsFilterActivity"
     tools:showIn="@layout/activity_violations_filter">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="violations filter"
+        android:id="@+id/textView5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -12,4 +12,30 @@
     tools:context="net.idt.trunkmon.SelectionsActivity"
     tools:showIn="@layout/activity_selections">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Violations"
+        android:id="@+id/vbutton"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thresholds"
+        android:id="@+id/tbutton"
+        android:layout_below="@+id/vbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="selections"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
