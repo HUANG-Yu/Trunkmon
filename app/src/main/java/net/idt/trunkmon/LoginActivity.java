@@ -1,5 +1,6 @@
 package net.idt.trunkmon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,10 +44,18 @@ public class LoginActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_content) {
+            startActivity(new Intent(this, SelectionsActivity.class));
+        } else if (id == R.id.action_violations) {
+            startActivity(new Intent(this, ViolationsFilterActivity.class));
+        } else if (id == R.id.action_thresholds) {
+            startActivity(new Intent(this, ThresholdsFilterActivity.class));
+        } else if (id == R.id.action_logout) {
+            startActivity(new Intent(this, LoginActivity.class));
+        } else {
+            //id == R.id.action_about
+            startActivity(new Intent(this, LoginActivity.class));
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
