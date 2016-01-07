@@ -43,34 +43,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_content) {
-            startActivity(new Intent(this, SelectionsActivity.class));
-        } else if (id == R.id.action_violations) {
-            startActivity(new Intent(this, ViolationsFilterActivity.class));
-        } else if (id == R.id.action_thresholds) {
-            startActivity(new Intent(this, ThresholdsFilterActivity.class));
-        } else if (id == R.id.action_logout) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            //id == R.id.action_about
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
