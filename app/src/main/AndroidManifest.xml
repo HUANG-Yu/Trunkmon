@@ -18,6 +18,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SelectionsActivity"
+            android:label="@string/title_activity_selections"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViolationsFilterActivity"
+            android:label="@string/title_activity_violations_filter"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViolationsDataActivity"
+            android:label="@string/title_activity_violations_data"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ThresholdsFilterActivity"
+            android:label="@string/title_activity_thresholds_filter"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ThresholdsDataActivity"
+            android:label="@string/title_activity_thresholds_data"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

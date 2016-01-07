@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Trunkmon</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_selections">SelectionsActivity</string>
+    <string name="title_activity_violations_filter">ViolationsFilterActivity</string>
+    <string name="title_activity_violations_data">ViolationsDataActivity</string>
+    <string name="title_activity_thresholds_filter">ThresholdsFilterActivity</string>
+    <string name="title_activity_thresholds_data">ThresholdsDataActivity</string>
 </resources>
