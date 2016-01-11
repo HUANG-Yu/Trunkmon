@@ -49,10 +49,10 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     public void showData() {
         for (int i = 0; i < values.length/columns.length; i++) {
+            // adding header to each json object
             record_header = new TableRow(this);
-
             head_info = new TextView(this);
-            head_info.setText("record " + i + " of " + JSON_count);
+            head_info.setText("record " + (i+1) + " of " + JSON_count);
             head_info.setTextColor(Color.BLUE);
             head_info.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -90,9 +90,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
-
+            // adding
             record_tail = new TableRow(this);
-
             tail_info = new TextView(this);
             tail_info.setText("----------------------------------");
             tail_info.setTextColor(Color.BLUE);
