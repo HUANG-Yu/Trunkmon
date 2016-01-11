@@ -129,9 +129,17 @@ public class ViolationsDataActivity extends AppCompatActivity {
             startActivity(new Intent(this, ThresholdsFilterActivity.class));
         } else if (id == R.id.action_logout) {
             startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            //id == R.id.action_about
+        } else if (id == R.id.action_about){
             startActivity(new Intent(this, LoginActivity.class));
+            return true;
+        }
+        else if (id == R.id.action_search) {
+            // implemented later
+            return true;
+        }
+        else { //(id == R.id.legend)
+             //TODO
+            // implemented the legend image here
             return true;
         }
         return super.onOptionsItemSelected(item);
