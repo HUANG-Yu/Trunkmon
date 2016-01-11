@@ -15,10 +15,15 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.Spinner;
 import util.MultiSelectionSpinner;
+import java.lang.String;
+import java.util.List;
 
 public class ViolationsFilterActivity extends AppCompatActivity {
     private static final String TAG = "vio filter log message";
-    private MultiSelectionSpinner multiSelectionSpinner;
+    private MultiSelectionSpinner startCountrySpinner;
+    private MultiSelectionSpinner divisionSpinner;
+    private MultiSelectionSpinner additionalSpinner;
+    private MultiSelectionSpinner showFieldsSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +49,28 @@ public class ViolationsFilterActivity extends AppCompatActivity {
         timeDropdown.setAdapter(adapter);
 
         String[] startCountryItems = {"none","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
-        multiSelectionSpinner.setItems(startCountryItems);
-        multiSelectionSpinner.setSelection(new int[]{2, 6});
+        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
+        startCountrySpinner.setItems(startCountryItems);
+        startCountrySpinner.setSelection(new int[]{2, 6});
 
         String[] divisionItems = {"none", "Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
-        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
-        multiSelectionSpinner.setItems(divisionItems);
-//        multiSelectionSpinner.setSelection(new int[]{2, 6});
+        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
+        divisionSpinner.setItems(divisionItems);
+
+        //test getting elements
+//        List<String> result = divisionSpinner.getSelectedStrings();
+//        for(int i=0;i<result.size();i++){
+//            Log.i(TAG, result.get(i));
+//            System.out.println(result.get(i));
+//        }
 
         String[] additionalItems = {"none","review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
-        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.additionalSpinner);
-        multiSelectionSpinner.setItems(additionalItems);
-//        multiSelectionSpinner.setSelection(new int[]{2, 6});
+        additionalSpinner = (MultiSelectionSpinner) findViewById(R.id.additionalSpinner);
+        additionalSpinner.setItems(additionalItems);
 
+        String[] showFieldsItems = {"none","Attempts", "Completed", "Failed", "Minutes", "CCR"};
+        showFieldsSpinner = (MultiSelectionSpinner) findViewById(R.id.showFieldsSpinner);
+        showFieldsSpinner.setItems(showFieldsItems);
     }
 
     @Override

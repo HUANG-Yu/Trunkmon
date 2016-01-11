@@ -51,6 +51,11 @@
             android:id="@+id/additionalSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <util.MultiSelectionSpinner
+            android:id="@+id/showFieldsSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
            <!-- -->
 
         <LinearLayout
