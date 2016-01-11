@@ -23,11 +23,19 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     // simulated data part
     String values[] = {"Gold", "Verizon", "NP1", "USA",
+            "Gold", "ATT", "NP4", "UK",
+            "Silver", "Tmobile", "NP3", "Canada",
             "USDebit", "Sprint", "NP2", "Nigeria"};
+
+    // decided by the JSON length passed back from the server
+    int JSON_count = 86;
 
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
+
+    TableRow record_header, record_tail;
+    TextView head_info, tail_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,21 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     public void showData() {
         for (int i = 0; i < values.length/columns.length; i++) {
+            record_header = new TableRow(this);
+
+            head_info = new TextView(this);
+            head_info.setText("record " + i + " of " + JSON_count);
+            head_info.setTextColor(Color.BLUE);
+            head_info.setLayoutParams(new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            head_info.setPadding(5, 5, 5, 5);
+            record_header.addView(head_info);
+
+            tl.addView(record_header, new TableLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT));
+
+
             for (int j = 0; j < columns.length; j++) {
                 tr = new TableRow(this);
                 tr.setLayoutParams(new LayoutParams(
@@ -56,7 +79,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 tr.addView(column_name);
 
                 column_value = new TextView(this);
-                column_value.setText(values[i]);
+                column_value.setText(values[j]);
                 column_value.setTextColor(Color.BLACK);
                 column_value.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -67,6 +90,20 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
+
+            record_tail = new TableRow(this);
+
+            tail_info = new TextView(this);
+            tail_info.setText("----------------------------------");
+            tail_info.setTextColor(Color.BLUE);
+            tail_info.setLayoutParams(new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            tail_info.setPadding(5, 5, 5, 5);
+            record_tail.addView(tail_info);
+
+            tl.addView(record_tail, new TableLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT));
         }
     }
 
