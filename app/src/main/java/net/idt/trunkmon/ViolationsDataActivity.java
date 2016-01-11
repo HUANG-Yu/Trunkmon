@@ -1,7 +1,10 @@
 package net.idt.trunkmon;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +12,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.TableRow.LayoutParams;
 
 public class ViolationsDataActivity extends AppCompatActivity {
+    // need to change later to add filter data columns
+    String columns[] = {"Division", "Account Names", "CLLI", "Location"};
+
+    // simulated data part
+    String values[] = {"Gold", "Verizon", "NP1", "USA",
+            "USDebit", "Sprint", "NP2", "Nigeria"};
+
+    TableLayout tl;
+    TableRow tr;
+    TextView column_name, column_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +35,39 @@ public class ViolationsDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_violations_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tl = (TableLayout) findViewById(R.id.violations_table);
+        showData();
+    }
+
+    public void showData() {
+        for (int i = 0; i < values.length/columns.length; i++) {
+            for (int j = 0; j < columns.length; j++) {
+                tr = new TableRow(this);
+                tr.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
+
+                column_name = new TextView(this);
+                column_name.setText(columns[j % columns.length]);
+                column_name.setTextColor(Color.BLACK);
+                column_name.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                column_name.setPadding(5, 5, 5, 5);
+                tr.addView(column_name);
+
+                column_value = new TextView(this);
+                column_value.setText(values[i]);
+                column_value.setTextColor(Color.BLACK);
+                column_value.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                column_value.setPadding(5, 5, 5, 5);
+                tr.addView(column_value);
+
+                tl.addView(tr, new TableLayout.LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
+            }
+        }
     }
 
     @Override
