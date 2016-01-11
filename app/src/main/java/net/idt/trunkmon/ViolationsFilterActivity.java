@@ -14,9 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.Spinner;
+import util.MultiSelectionSpinner;
 
 public class ViolationsFilterActivity extends AppCompatActivity {
     private static final String TAG = "vio filter log message";
+    private MultiSelectionSpinner multiSelectionSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,26 @@ public class ViolationsFilterActivity extends AppCompatActivity {
             }
         });
 
-        Spinner dropdown = (Spinner)findViewById(R.id.timeSpinner);
-        String[] items = new String[]{"1/4/2015 17:00", "1/5/2015 17:00", "1/6/2015 17:00","1/7/2015 17:00"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        Spinner timeDropdown = (Spinner)findViewById(R.id.timeSpinner);
+        String[] timeItems = new String[]{"none","1/4/2015 17:00", "1/5/2015 17:00", "1/6/2015 17:00","1/7/2015 17:00"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timeItems);
+        timeDropdown.setAdapter(adapter);
+
+        String[] startCountryItems = {"none","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
+        multiSelectionSpinner.setItems(startCountryItems);
+        multiSelectionSpinner.setSelection(new int[]{2, 6});
+
+        String[] divisionItems = {"none", "Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
+        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
+        multiSelectionSpinner.setItems(divisionItems);
+//        multiSelectionSpinner.setSelection(new int[]{2, 6});
+
+        String[] additionalItems = {"none","review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
+        multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.additionalSpinner);
+        multiSelectionSpinner.setItems(additionalItems);
+//        multiSelectionSpinner.setSelection(new int[]{2, 6});
+
     }
 
     @Override
