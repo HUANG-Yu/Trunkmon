@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         Button loginBt = (Button)findViewById(R.id.loginBt);
         loginBt.setOnClickListener(new View.OnClickListener() {
             @Override
