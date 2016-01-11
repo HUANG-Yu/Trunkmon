@@ -3,6 +3,7 @@ package net.idt.trunkmon;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class ViolationsDataActivity extends AppCompatActivity {
     // need to change later to add filter data columns
@@ -36,6 +41,11 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     TableRow record_header, record_tail;
     TextView head_info, tail_info;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +55,17 @@ public class ViolationsDataActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         tl = (TableLayout) findViewById(R.id.violations_table);
         showData();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public void showData() {
-        for (int i = 0; i < values.length/columns.length; i++) {
+        for (int i = 0; i < values.length / columns.length; i++) {
             // adding header to each json object
             record_header = new TableRow(this);
             head_info = new TextView(this);
-            head_info.setText("record " + (i+1) + " of " + JSON_count);
+            head_info.setText("record " + (i + 1) + " of " + JSON_count);
             head_info.setTextColor(Color.BLUE);
             head_info.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -129,20 +142,58 @@ public class ViolationsDataActivity extends AppCompatActivity {
             startActivity(new Intent(this, ThresholdsFilterActivity.class));
         } else if (id == R.id.action_logout) {
             startActivity(new Intent(this, LoginActivity.class));
-        } else if (id == R.id.action_about){
+        } else if (id == R.id.action_about) {
             startActivity(new Intent(this, LoginActivity.class));
             return true;
-        }
-        else if (id == R.id.action_search) {
+        } else if (id == R.id.action_search) {
             // implemented later
             return true;
-        }
-        else { //(id == R.id.legend)
-             //TODO
+        } else if (id == R.id.vioLegendBt) {
+            //TODO
             // implemented the legend image here
+            startActivity(new Intent(this, popLegend.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ViolationsData Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://net.idt.trunkmon/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ViolationsData Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://net.idt.trunkmon/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }

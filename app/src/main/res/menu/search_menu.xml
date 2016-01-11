@@ -10,7 +10,7 @@
             app:showAsAction="always"
             app:actionViewClass="android.support.v7.widget.SearchView" />
         <item
-            android:id="@+id/legend"
+            android:id="@+id/vioLegendBt"
             android:title="Legend"
             app:showAsAction="always" />
         <item
@@ -29,6 +29,7 @@
             android:title="@string/action_thresholds"
             app:showAsAction="never" />
     </group>
+
     <group android:id="@+id/my_id2">
         <item
             android:id="@+id/action_logout"
@@ -41,4 +42,6 @@
             android:title="@string/action_about"
             app:showAsAction="never" />
     </group>
+
+
 </menu>
