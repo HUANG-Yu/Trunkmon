@@ -81,9 +81,6 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
     private String[] getTimeItems(){
         String[] timeItems = new String[25];
-        for(int i=0; i<25;i++){
-            timeItems[i] = "none";
-        }
 
         Date date = new Date();
         Date previousDate = new Date(System.currentTimeMillis()-24*60*60*1000);
@@ -95,11 +92,13 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         String preDay = new SimpleDateFormat("dd").format(previousDate);
         String hour = new SimpleDateFormat("HH").format(date);
 
-        for(int i=Integer.parseInt(hour); i<24; i++){
-            timeItems[i-Integer.parseInt(hour)] = preYear + "-" + preMonth + "-" + preDay + " " + String.format("%02d", i) + ":00";
+        int lastHour = Integer.parseInt(hour)-2;
+
+        for(int i=lastHour; i<24; i++){
+            timeItems[i-lastHour] = preYear + "-" + preMonth + "-" + preDay + " " + String.format("%02d", i) + ":00";
         }
-        for(int i=0; i<=Integer.parseInt(hour);i++){
-            timeItems[24-Integer.parseInt(hour)+i] = year + "-" + month + "-" + day + " " + String.format("%02d", i) + ":00";
+        for(int i=0; i<=lastHour;i++){
+            timeItems[24-lastHour+i] = year + "-" + month + "-" + day + " " + String.format("%02d", i) + ":00";
         }
         return timeItems;
     }
