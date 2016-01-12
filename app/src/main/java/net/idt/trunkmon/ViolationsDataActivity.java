@@ -1,18 +1,16 @@
 package net.idt.trunkmon;
 
-import android.app.ActionBar;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -21,6 +19,8 @@ import android.widget.TableRow.LayoutParams;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.List;
 
 public class ViolationsDataActivity extends AppCompatActivity {
     // need to change later to add filter data columns
@@ -46,6 +46,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private static final String TAG = "vdata log message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,9 +151,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
             // implemented later
             return true;
         } else if (id == R.id.vioLegendBt) {
-            //TODO
-            // implemented the legend image here
-            startActivity(new Intent(this, popLegend.class));
+            startActivity(new Intent(this, vioPopLegend.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
