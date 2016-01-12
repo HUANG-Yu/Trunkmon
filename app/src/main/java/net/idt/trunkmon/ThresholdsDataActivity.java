@@ -2,13 +2,10 @@ package net.idt.trunkmon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 public class ThresholdsDataActivity extends AppCompatActivity {
 
@@ -44,7 +41,10 @@ public class ThresholdsDataActivity extends AppCompatActivity {
             startActivity(new Intent(this, ThresholdsFilterActivity.class));
         } else if (id == R.id.action_logout) {
             startActivity(new Intent(this, LoginActivity.class));
-        } else {
+        } else if (id == R.id.vioLegendBt) {
+            startActivity(new Intent(this, thresPopLegend.class));
+            return true;
+        }else {
             //id == R.id.action_about
             startActivity(new Intent(this, LoginActivity.class));
             return true;
