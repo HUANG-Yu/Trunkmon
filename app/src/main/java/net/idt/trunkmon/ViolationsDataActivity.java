@@ -17,6 +17,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+import org.json.*;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -41,11 +42,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     TableRow record_header, record_tail;
     TextView head_info, tail_info;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +72,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT));
 
-
             for (int j = 0; j < columns.length; j++) {
                 tr = new TableRow(this);
                 tr.setLayoutParams(new LayoutParams(
@@ -92,7 +87,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 tr.addView(column_name);
 
                 column_value = new TextView(this);
-                column_value.setText(values[j]);
+                column_value.setText(values[j+i*columns.length]);
                 column_value.setTextColor(Color.BLACK);
                 column_value.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -103,10 +98,10 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
-            // adding
+            // adding tail to each json object
             record_tail = new TableRow(this);
             tail_info = new TextView(this);
-            tail_info.setText("----------------------------------");
+            tail_info.setText("-----------------------------------------");
             tail_info.setTextColor(Color.BLUE);
             tail_info.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
