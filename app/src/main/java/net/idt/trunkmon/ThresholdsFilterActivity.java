@@ -14,6 +14,10 @@ import android.widget.Button;
 
 public class ThresholdsFilterActivity extends AppCompatActivity {
 
+    String[] countries = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola"};
+    String[] countriesStartFrom = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    String[] divisions = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
