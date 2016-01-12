@@ -11,10 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,33 +26,41 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ViolationsDataActivity extends AppCompatActivity {
     // need to change later to add filter data columns
-    String columns[] = {"Division", "Account Names", "CLLI", "Location"};
+    // String columns[] = {"Division", "Account Names", "CLLI", "Location"};
 
     // simulated data part
-    String values[] = {"Gold", "Verizon", "NP1", "USA",
-            "Gold", "ATT", "NP4", "UK",
-            "Silver", "Tmobile", "NP3", "Canada",
-            "USDebit", "Sprint", "NP2", "Nigeria"};
+    String values[] = {"Gold", "Verizon", "NP1", "USA", "Attemps", "Failed", "CCR",
+            "Gold", "ATT", "NP4", "UK", "Attemps", "Failed", "CCR",
+            "Silver", "Tmobile", "NP3", "Canada", "Attemps", "Failed", "CCR",
+            "USDebit", "Sprint", "NP2", "Nigeria", "Attemps", "Failed", "CCR",
+            "UKDebit", "Ultramobile", "NP5", "Japan", "Attemps", "Failed", "CCR"};
 
     // decided by the JSON length passed back from the server
-    int JSON_count = 86;
+    int JSON_count = 86; // changed with received.length()
 
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
 
     TableRow record_header, record_tail;
-    TextView head_info, tail_info;
+    TextView head_info;
+    EditText push_edit;
+    Button push, pull;
+
+    JSONObject JColumns;
+    List<String> columns;
+
+    JSONObject received;
 
     private GoogleApiClient client;
-
-    // simulate JSON
-
-
 
     private static final String TAG = "vdata log message";
 
@@ -60,14 +71,45 @@ public class ViolationsDataActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tl = (TableLayout) findViewById(R.id.violations_table);
+        try {
+            generateColumns();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         showData();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    public void generateColumns() throws JSONException {
+        // generateing default columns
+        columns = new ArrayList<String>();
+        String default_columns[] = {"Division", "Account Names", "CLLI", "Location"};
+        for (String each : default_columns) {
+            columns.add(each);
+        }
+        //simulate the receiving filtered data in JSON object
+        JColumns = new JSONObject();
+        JSONArray jArray = new JSONArray();
+        jArray.put("Attemps");
+        jArray.put("Failed");
+        jArray.put("CRR");
+        JColumns.put("Time", "XX-XX-XX");
+        JColumns.put("showFields", jArray);
+        if (JColumns.has("showFields")) {
+            JSONArray extractColumns = (JSONArray) JColumns.get("showFields");
+            for (int i = 0; i < extractColumns.length(); i++) {
+                columns.add(extractColumns.get(i).toString());
+            }
+        }
+        // simulate the receiving JSON from ViolationsFilterActivity
+        received = new JSONObject();
+        String strJson = "";
+}
+
     public void showData() {
-        for (int i = 0; i < values.length / columns.length; i++) {
+        for (int i = 0; i < values.length / columns.size(); i++) {
             // adding header to each json object
             record_header = new TableRow(this);
             head_info = new TextView(this);
@@ -82,22 +124,22 @@ public class ViolationsDataActivity extends AppCompatActivity {
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT));
 
-            for (int j = 0; j < columns.length; j++) {
+            for (int j = 0; j < columns.size(); j++) {
                 tr = new TableRow(this);
                 tr.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
-
+                // column name in the first column
                 column_name = new TextView(this);
-                column_name.setText(columns[j % columns.length]);
+                column_name.setText(columns.get(j % columns.size()));
                 column_name.setTextColor(Color.BLACK);
                 column_name.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                 column_name.setPadding(5, 5, 5, 5);
                 tr.addView(column_name);
-
+                // column value in the second column
                 column_value = new TextView(this);
-                column_value.setText(values[j+i*columns.length]);
+                column_value.setText(values[j + i * columns.size()]);
                 column_value.setTextColor(Color.BLACK);
                 column_value.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -108,21 +150,41 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
-            // adding tail to each json object
+            // adding buttons to modify the current record
             record_tail = new TableRow(this);
-            tail_info = new TextView(this);
-            tail_info.setText("-----------------------------------------");
-            tail_info.setTextColor(Color.BLUE);
-            tail_info.setLayoutParams(new LayoutParams(
-                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-            tail_info.setPadding(5, 5, 5, 5);
-            record_tail.addView(tail_info);
+            push_edit = new EditText(this);
+            push_edit.setText("5%");
+            push_edit.setPadding(0, 0, 0, 0);
+            push_edit.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+            push = new Button(this);
+            push.setText("Push");
+            push.setPadding(0, 0, 0, 0);
+            push.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+            pull = new Button(this);
+            pull.setText("Pull");
+            pull.setPadding(0, 0, 0, 0);
+            pull.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+            record_tail.addView(pull);
+            record_tail.addView(push_edit);
+            record_tail.addView(push);
 
             tl.addView(record_tail, new TableLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT));
         }
     }
+
+    // override onclicklistener on push button
+
+    // override gettext on push_edit edittext
+
+    // override gettext on pull button
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
