@@ -8,6 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import net.idt.trunkmon.Communicator;
+import net.idt.trunkmon.ViolationsFilterActivity;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,12 +19,13 @@ import java.util.List;
 public class MultiSelectionSpinner extends Spinner implements
         DialogInterface.OnMultiChoiceClickListener {
     String[] _items = null;
-    boolean[] mSelection = null;
+    public boolean[] mSelection = null;
     boolean[] mSelectionAtStart = null;
     String _itemsAtStart = null;
-
+    public String spinner_title=null;
     ArrayAdapter<String> simple_adapter;
-
+    public ArrayList<String> selected_items=new ArrayList<String>();
+    public ArrayList<String> selected_itemsAtStart=new ArrayList<String>();
     public MultiSelectionSpinner(Context context) {
         super(context);
 
@@ -39,9 +44,18 @@ public class MultiSelectionSpinner extends Spinner implements
 
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
         if (mSelection != null && which < mSelection.length) {
+
             mSelection[which] = isChecked;
             simple_adapter.clear();
-            simple_adapter.add(buildSelectedItemString());
+            // simple_adapter.add(buildSelectedItemString());
+            if(!selected_items.contains(_items[which]) && mSelection[which])
+                selected_items.add(_items[which]);
+            else if(!mSelection[which])
+            {
+                int p=selected_items.indexOf(_items[which]);
+                selected_items.remove(p);
+            }
+            simple_adapter.add(spinner_title);
         } else {
             throw new IllegalArgumentException(
                     "Argument 'which' is out of bounds.");
@@ -52,21 +66,56 @@ public class MultiSelectionSpinner extends Spinner implements
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMultiChoiceItems(_items, mSelection, this);
+        //selected_items.clear();
         _itemsAtStart = getSelectedItemsAsString();
+        selected_itemsAtStart = new ArrayList<>(selected_items);
+        //mSelectionAtStart = mSelection;
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.arraycopy(mSelection, 0, mSelectionAtStart, 0, mSelection.length);
+                if(spinner_title.contains("Time"))
+                {
+                    Communicator c = (Communicator)getContext();
+                    c.responseTime(selected_items);
+                }
+                if(spinner_title.contains("Country"))
+                {
+                    Communicator c = (Communicator)getContext();
+                    c.responseCountry(selected_items);
+                }
+                if(spinner_title.contains("Division"))
+                {
+                    Communicator c = (Communicator)getContext();
+                    c.responseDivision(selected_items);
+                }
+                if(spinner_title.contains("Additional items"))
+                {
+                    Communicator c = (Communicator)getContext();
+                    c.responseAddItems(selected_items);
+                }
+                if(spinner_title.contains("Showfields"))
+                {
+                    Communicator c = (Communicator)getContext();
+                    c.responseShowFields(selected_items);
+                }
+
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 simple_adapter.clear();
-                simple_adapter.add(_itemsAtStart);
+                // simple_adapter.add(_itemsAtStart);
+                simple_adapter.add(spinner_title);
                 System.arraycopy(mSelectionAtStart, 0, mSelection, 0, mSelectionAtStart.length);
+                //selected_items = new ArrayList<String>(selected_itemsAtStart);
+
+
             }
         });
+        builder.setTitle(spinner_title);
         builder.show();
         return true;
     }
@@ -82,10 +131,10 @@ public class MultiSelectionSpinner extends Spinner implements
         mSelection = new boolean[_items.length];
         mSelectionAtStart = new boolean[_items.length];
         simple_adapter.clear();
-        simple_adapter.add(_items[0]);
+        simple_adapter.add(spinner_title);
         Arrays.fill(mSelection, false);
-        mSelection[0] = true;
-        mSelectionAtStart[0] = true;
+        // mSelection[0] = true;
+        //mSelectionAtStart[0] = true;
     }
 
     public void setItems(List<String> items) {
@@ -93,7 +142,8 @@ public class MultiSelectionSpinner extends Spinner implements
         mSelection = new boolean[_items.length];
         mSelectionAtStart  = new boolean[_items.length];
         simple_adapter.clear();
-        simple_adapter.add(_items[0]);
+        //simple_adapter.add(_items[0]);
+        simple_adapter.add(spinner_title);
         Arrays.fill(mSelection, false);
         mSelection[0] = true;
     }

@@ -12,85 +12,151 @@
     tools:context="net.idt.trunkmon.ViolationsFilterActivity"
     tools:showIn="@layout/activity_violations_filter">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="violations filter"
-        android:id="@+id/textView5"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/timeSpinner"
-                android:layout_marginTop="23dp"
-                android:layout_below="@+id/textView5"
-                android:layout_toRightOf="@+id/textView5"
-                android:layout_toEndOf="@+id/textView5"
-                android:spinnerMode="dropdown" />
+        <util.MultiSelectionSpinner
+            android:id="@+id/timeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/timeSpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
 
         <util.MultiSelectionSpinner
             android:id="@+id/startCountrySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/startCountrySpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
         <util.MultiSelectionSpinner
             android:id="@+id/divisionSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_division"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/divisionSpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
 
         <util.MultiSelectionSpinner
             android:id="@+id/additionalSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_addition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/additionalSpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
         <util.MultiSelectionSpinner
             android:id="@+id/showFieldsSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-           <!-- -->
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_showFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/showFieldsSpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+        <!-- -->
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:text="reset"
+                android:id="@+id/vResetButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/textView5"
+                android:layout_alignEnd="@+id/textView5"
+                android:layout_marginBottom="46dp" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="reset"
-                    android:id="@+id/vResetButton"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignRight="@+id/textView5"
-                    android:layout_alignEnd="@+id/textView5"
-                    android:layout_marginBottom="46dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous Filter"
+                android:id="@+id/vPreFilterButton"
+                android:layout_alignBottom="@+id/vResetButton"
+                android:layout_centerHorizontal="true" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Previous Filter"
-                    android:id="@+id/vPreFilterButton"
-                    android:layout_alignBottom="@+id/vResetButton"
-                    android:layout_centerHorizontal="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="apply"
+                android:id="@+id/vApplyButton"
+                android:layout_alignBottom="@+id/vPreFilterButton"
+                android:layout_toEndOf="@+id/vPreFilterButton"
+                android:layout_toRightOf="@+id/vPreFilterButton"/>
+        </LinearLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="apply"
-                    android:id="@+id/vApplyButton"
-                    android:layout_alignBottom="@+id/vPreFilterButton"
-                    android:layout_toEndOf="@+id/vPreFilterButton"
-                    android:layout_toRightOf="@+id/vPreFilterButton"/>
-            </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>
