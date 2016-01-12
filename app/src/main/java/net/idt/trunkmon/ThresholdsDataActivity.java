@@ -44,7 +44,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         } else if (id == R.id.vioLegendBt) {
             startActivity(new Intent(this, thresPopLegend.class));
             return true;
-        }else {
+        } else {
             //id == R.id.action_about
             startActivity(new Intent(this, LoginActivity.class));
             return true;
