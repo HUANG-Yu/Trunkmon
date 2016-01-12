@@ -19,7 +19,7 @@
         android:layout_height="match_parent">
 
         <util.MultiSelectionSpinner
-            android:id="@+id/timeSpinner"
+            android:id="@+id/thCountrySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -34,13 +34,13 @@
             app:textPaddingRight="10dp"
             app:textPaddingTop="3dp"
             android:clickable="true"
-            android:layout_alignTop="@+id/timeSpinner"
+            android:layout_alignTop="@+id/thCountrySpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
         </me.kaede.tagview.TagView>
 
         <util.MultiSelectionSpinner
-            android:id="@+id/startCountrySpinner"
+            android:id="@+id/thStartCountrySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -55,13 +55,13 @@
             app:textPaddingRight="10dp"
             app:textPaddingTop="3dp"
             android:clickable="true"
-            android:layout_alignTop="@+id/startCountrySpinner"
+            android:layout_alignTop="@+id/thStartCountrySpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
         </me.kaede.tagview.TagView>
 
         <util.MultiSelectionSpinner
-            android:id="@+id/divisionSpinner"
+            android:id="@+id/thDivisionSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -76,7 +76,7 @@
             app:textPaddingRight="10dp"
             app:textPaddingTop="3dp"
             android:clickable="true"
-            android:layout_alignTop="@+id/divisionSpinner"
+            android:layout_alignTop="@+id/thDivisionSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
         </me.kaede.tagview.TagView>

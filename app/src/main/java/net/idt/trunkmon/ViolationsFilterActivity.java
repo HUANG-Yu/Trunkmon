@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import me.kaede.tagview.OnTagDeleteListener;
 import me.kaede.tagview.Tag;
@@ -18,27 +16,8 @@ import me.kaede.tagview.TagView;
 import util.MultiSelectionSpinner;
 
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.content.Intent;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import util.MultiSelectionSpinner;
-
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ViolationsFilterActivity extends AppCompatActivity implements Communicator {
@@ -72,18 +51,18 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         });
 
 
-        timeDropdown = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
+        timeDropdown = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
         timeDropdown.spinner_title = "Time";
         timeDropdown.setItems(timeItems);
 
 
-        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
+        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.thStartCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
         startCountrySpinner.setItems(startCountryItems);
         //startCountrySpinner.setSelection(new int[]{2, 6});
 
 
-        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
+        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.thDivisionSpinner);
         divisionSpinner.spinner_title = "Division";
         divisionSpinner.setItems(divisionItems);
 

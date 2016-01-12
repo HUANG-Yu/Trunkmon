@@ -12,30 +12,110 @@
     tools:context="net.idt.trunkmon.ThresholdsFilterActivity"
     tools:showIn="@layout/activity_thresholds_filter">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tResetButton"
-        android:layout_alignTop="@+id/tApplyButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Reset" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Previous Filter"
-        android:id="@+id/tPreFilterButton"
-        android:layout_alignTop="@+id/tApplyButton"
-        android:layout_centerHorizontal="true" />
+        <util.MultiSelectionSpinner
+            android:id="@+id/thCountrySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="apply"
-        android:id="@+id/tApplyButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="45dp" />
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/thCountrySpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
+        <util.MultiSelectionSpinner
+            android:id="@+id/thStartCountrySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/thStartCountrySpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
+        <util.MultiSelectionSpinner
+            android:id="@+id/thDivisionSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_division"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/thDivisionSpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
+        <!-- -->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reset"
+                android:id="@+id/tResetButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/textView5"
+                android:layout_alignEnd="@+id/textView5"
+                android:layout_marginBottom="46dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous Filter"
+                android:id="@+id/tPreFilterButton"
+                android:layout_alignBottom="@+id/vResetButton"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="apply"
+                android:id="@+id/tApplyButton"
+                android:layout_alignBottom="@+id/vPreFilterButton"
+                android:layout_toEndOf="@+id/vPreFilterButton"
+                android:layout_toRightOf="@+id/vPreFilterButton"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
