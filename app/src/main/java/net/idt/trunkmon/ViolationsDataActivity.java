@@ -43,6 +43,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
     TableRow record_header, record_tail;
     TextView head_info, tail_info;
 
+    private GoogleApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
