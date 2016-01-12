@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import me.kaede.tagview.OnTagDeleteListener;
 import me.kaede.tagview.Tag;
@@ -18,27 +16,10 @@ import me.kaede.tagview.TagView;
 import util.MultiSelectionSpinner;
 
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.content.Intent;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import util.MultiSelectionSpinner;
-
 import java.lang.String;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class ViolationsFilterActivity extends AppCompatActivity implements Communicator {
@@ -49,7 +30,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     private MultiSelectionSpinner showFieldsSpinner;
     private MultiSelectionSpinner timeDropdown;
     String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    String[] timeItems = new String[]{"1/4/2015 17:00", "1/5/2015 17:00", "1/6/2015 17:00", "1/7/2015 17:00"};
+    String[] timeItems;
     String[] divisionItems = {"Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
     String[] additionalItems = {"review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
     String[] showFieldsItems = {"Attempts", "Completed", "Failed", "Minutes", "CCR"};
@@ -71,19 +52,19 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             }
         });
 
-
-        timeDropdown = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
+        timeItems = getTimeItems();
+        timeDropdown = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
         timeDropdown.spinner_title = "Time";
         timeDropdown.setItems(timeItems);
 
 
-        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
+        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.thStartCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
         startCountrySpinner.setItems(startCountryItems);
         //startCountrySpinner.setSelection(new int[]{2, 6});
 
 
-        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
+        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.thDivisionSpinner);
         divisionSpinner.spinner_title = "Division";
         divisionSpinner.setItems(divisionItems);
 
@@ -96,6 +77,31 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         showFieldsSpinner = (MultiSelectionSpinner) findViewById(R.id.showFieldsSpinner);
         showFieldsSpinner.spinner_title = "Showfields";
         showFieldsSpinner.setItems(showFieldsItems);
+    }
+
+    private String[] getTimeItems(){
+        String[] timeItems = new String[25];
+        for(int i=0; i<25;i++){
+            timeItems[i] = "none";
+        }
+
+        Date date = new Date();
+        Date previousDate = new Date(System.currentTimeMillis()-24*60*60*1000);
+        String year = new SimpleDateFormat("yyyy").format(date);
+        String month = new SimpleDateFormat("MM").format(date);
+        String day = new SimpleDateFormat("dd").format(date);
+        String preYear = new SimpleDateFormat("yyyy").format(previousDate);
+        String preMonth = new SimpleDateFormat("MM").format(previousDate);
+        String preDay = new SimpleDateFormat("dd").format(previousDate);
+        String hour = new SimpleDateFormat("HH").format(date);
+
+        for(int i=Integer.parseInt(hour); i<24; i++){
+            timeItems[i-Integer.parseInt(hour)] = preYear + "-" + preMonth + "-" + preDay + " " + String.format("%02d", i) + ":00";
+        }
+        for(int i=0; i<=Integer.parseInt(hour);i++){
+            timeItems[24-Integer.parseInt(hour)+i] = year + "-" + month + "-" + day + " " + String.format("%02d", i) + ":00";
+        }
+        return timeItems;
     }
 
     @Override
@@ -135,7 +141,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_time = (TagView) findViewById(R.id.tagview_time);
         tagview_time.removeAllTags();
-        List<String> selection = new ArrayList<String>(text);
+        List<String> selection = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selection) {
@@ -161,7 +167,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
         tagview_country.removeAllTags();
-        List<String> selection = new ArrayList<String>(text);
+        List<String> selection = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selection) {
@@ -187,7 +193,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_division = (TagView) findViewById(R.id.tagview_division);
         tagview_division.removeAllTags();
-        List<String> selection = new ArrayList<String>(text);
+        List<String> selection = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selection) {
@@ -213,7 +219,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_addition = (TagView) findViewById(R.id.tagview_addition);
         tagview_addition.removeAllTags();
-        List<String> selection = new ArrayList<String>(text);
+        List<String> selection = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selection) {
@@ -239,7 +245,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_showFields = (TagView) findViewById(R.id.tagview_showFields);
         tagview_showFields.removeAllTags();
-        List<String> selection = new ArrayList<String>(text);
+        List<String> selection = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selection) {

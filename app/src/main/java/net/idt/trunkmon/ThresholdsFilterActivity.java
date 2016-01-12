@@ -12,7 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import util.MultiSelectionSpinner;
+
 public class ThresholdsFilterActivity extends AppCompatActivity {
+    private MultiSelectionSpinner countrySpinner;
+    private MultiSelectionSpinner startCountrySpinner;
+    private MultiSelectionSpinner divisionSpinner;
+
+    String[] countryItems = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola"};
+    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    String[] divisionItems = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +34,22 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
         applyBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                 startActivity(intent);
             }
         });
+
+        countrySpinner = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
+        countrySpinner.spinner_title = "Country";
+        countrySpinner.setItems(countryItems);
+
+        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.thStartCountrySpinner);
+        startCountrySpinner.spinner_title = "Country Starts From";
+        startCountrySpinner.setItems(startCountryItems);
+
+        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.thDivisionSpinner);
+        divisionSpinner.spinner_title = "Division";
+        divisionSpinner.setItems(divisionItems);
     }
 
 }
