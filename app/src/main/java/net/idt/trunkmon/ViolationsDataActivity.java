@@ -17,7 +17,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -44,6 +46,10 @@ public class ViolationsDataActivity extends AppCompatActivity {
     TextView head_info, tail_info;
 
     private GoogleApiClient client;
+
+    // simulate JSON
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
