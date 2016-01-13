@@ -23,22 +23,22 @@ import java.util.Date;
 import java.util.List;
 
 public class ViolationsFilterActivity extends AppCompatActivity implements Communicator {
-    private static final String TAG = "vio filter log message";
     private MultiSelectionSpinner startCountrySpinner;
     private MultiSelectionSpinner divisionSpinner;
     private MultiSelectionSpinner additionalSpinner;
     private MultiSelectionSpinner showFieldsSpinner;
     private MultiSelectionSpinner timeDropdown;
-    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    String[] startCountryItems = {"A", "B"};
+    //String[] startCountryItems = new String[26];
     String[] timeItems;
     String[] divisionItems = {"Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
     String[] additionalItems = {"review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
     String[] showFieldsItems = {"Attempts", "Completed", "Failed", "Minutes", "CCR"};
+    String json_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "vio filter onCreate");
         setContentView(R.layout.activity_violations_filter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,9 +48,20 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(), ViolationsDataActivity.class);
+                // TODO
+                // put the JSONObject in string format in variable json_string and sending it
+                // to ViolationsDataActicvity
+                intent.putExtra("json_string", json_string);
                 startActivity(intent);
             }
         });
+
+        /* generate startCountry
+        for (int i = 0; i < 26; i++) {
+            char cur = ;
+            startCountryItems[i] = "" + cur;
+        }
+        */
 
         timeItems = getTimeItems();
         timeDropdown = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
@@ -79,11 +90,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         showFieldsSpinner.setItems(showFieldsItems);
     }
 
-    private String[] getTimeItems(){
+    private String[] getTimeItems() {
         String[] timeItems = new String[25];
 
         Date date = new Date();
-        Date previousDate = new Date(System.currentTimeMillis()-24*60*60*1000);
+        Date previousDate = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
         String year = new SimpleDateFormat("yyyy").format(date);
         String month = new SimpleDateFormat("MM").format(date);
         String day = new SimpleDateFormat("dd").format(date);
@@ -92,13 +103,13 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         String preDay = new SimpleDateFormat("dd").format(previousDate);
         String hour = new SimpleDateFormat("HH").format(date);
 
-        int lastHour = Integer.parseInt(hour)-2;
+        int lastHour = Integer.parseInt(hour) - 2;
 
-        for(int i=lastHour; i<24; i++){
-            timeItems[i-lastHour] = preYear + "-" + preMonth + "-" + preDay + " " + String.format("%02d", i) + ":00";
+        for (int i = lastHour; i < 24; i++) {
+            timeItems[i - lastHour] = preYear + "-" + preMonth + "-" + preDay + " " + String.format("%02d", i) + ":00";
         }
-        for(int i=0; i<=lastHour;i++){
-            timeItems[24-lastHour+i] = year + "-" + month + "-" + day + " " + String.format("%02d", i) + ":00";
+        for (int i = 0; i <= lastHour; i++) {
+            timeItems[24 - lastHour + i] = year + "-" + month + "-" + day + " " + String.format("%02d", i) + ":00";
         }
         return timeItems;
     }

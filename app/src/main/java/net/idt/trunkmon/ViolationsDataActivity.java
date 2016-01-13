@@ -1,14 +1,11 @@
 package net.idt.trunkmon;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -52,10 +49,11 @@ public class ViolationsDataActivity extends AppCompatActivity {
     EditText push_edit;
     Button push, pull;
 
-    JSONObject JColumns;
+    JSONObject j_columns;
     List<String> columns;
 
     JSONObject received;
+    String json_string;
 
     private GoogleApiClient client;
 
@@ -67,6 +65,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         tl = (TableLayout) findViewById(R.id.violations_table);
         try {
+            recreate_json();
             generateColumns();
             showResult();
         } catch (JSONException e) {
@@ -76,6 +75,11 @@ public class ViolationsDataActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public void recreate_json() {
+        Intent intent = getIntent();
+        json_string = intent.getExtras().getString("json_string");
     }
 
     /**
@@ -91,15 +95,15 @@ public class ViolationsDataActivity extends AppCompatActivity {
             columns.add(each);
         }
         //simulate the receiving filtered data in JSON object
-        JColumns = new JSONObject();
+        j_columns = new JSONObject();
         JSONArray jArray = new JSONArray();
         jArray.put("Attemps");
         jArray.put("Failed");
         jArray.put("CRR");
-        JColumns.put("Time", "XX-XX-XX");
-        JColumns.put("showFields", jArray);
-        if (JColumns.has("showFields")) {
-            JSONArray extractColumns = (JSONArray) JColumns.get("showFields");
+        j_columns.put("Time", "XX-XX-XX");
+        j_columns.put("showFields", jArray);
+        if (j_columns.has("showFields")) {
+            JSONArray extractColumns = (JSONArray) j_columns.get("showFields");
             for (int i = 0; i < extractColumns.length(); i++) {
                 columns.add(extractColumns.get(i).toString());
             }
