@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -27,18 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViolationsDataActivity extends AppCompatActivity {
-    // need to change later to add filter data columns
-    // String columns[] = {"Division", "Account Names", "CLLI", "Location"};
-
-    // simulated data part
-    String values[] = {"Gold", "Verizon", "NP1", "USA", "Attemps", "Failed", "CCR",
-            "Gold", "ATT", "NP4", "UK", "Attemps", "Failed", "CCR",
-            "Silver", "Tmobile", "NP3", "Canada", "Attemps", "Failed", "CCR",
-            "USDebit", "Sprint", "NP2", "Nigeria", "Attemps", "Failed", "CCR",
-            "UKDebit", "Ultramobile", "NP5", "Japan", "Attemps", "Failed", "CCR"};
-
     // decided by the JSON length passed back from the server
-    int JSON_count = 86; // changed with received.length()
+    int JSON_count = 86;
 
     TableLayout tl;
     TableRow tr;
@@ -49,11 +40,10 @@ public class ViolationsDataActivity extends AppCompatActivity {
     EditText push_edit;
     Button push, pull;
 
-    JSONObject j_columns;
     List<String> columns;
 
-    JSONObject received;
-    String json_string;
+    JSONObject request;
+    JSONObject response;
 
     private GoogleApiClient client;
 
@@ -71,15 +61,17 @@ public class ViolationsDataActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        // showData();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void recreate_json() {
+    public void recreate_json() throws JSONException{
         Intent intent = getIntent();
-        json_string = intent.getExtras().getString("json_string");
+        request = new JSONObject(intent.getExtras().getString("request"));
+        Log.i("request", intent.getExtras().getString("request"));
+        response = new JSONObject(intent.getExtras().getString("response"));
+        Log.i("response", intent.getExtras().getString("response"));
     }
 
     /**
@@ -90,20 +82,13 @@ public class ViolationsDataActivity extends AppCompatActivity {
     public void generateColumns() throws JSONException {
         // generateing default columns
         columns = new ArrayList<String>();
-        String default_columns[] = {"Division", "Account Names", "CLLI", "Location"};
+        String default_columns[] = {"Account Name", "CLLI", "Location"};
         for (String each : default_columns) {
             columns.add(each);
         }
-        //simulate the receiving filtered data in JSON object
-        j_columns = new JSONObject();
-        JSONArray jArray = new JSONArray();
-        jArray.put("Attemps");
-        jArray.put("Failed");
-        jArray.put("CRR");
-        j_columns.put("Time", "XX-XX-XX");
-        j_columns.put("showFields", jArray);
-        if (j_columns.has("showFields")) {
-            JSONArray extractColumns = (JSONArray) j_columns.get("showFields");
+        // generate extra columns according to selected showFields
+        if (request.has("showFields")) {
+            JSONArray extractColumns = (JSONArray) request.get("showFields");
             for (int i = 0; i < extractColumns.length(); i++) {
                 columns.add(extractColumns.get(i).toString());
             }
@@ -116,19 +101,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
      * @throws JSONException
      */
     public void showResult() throws JSONException {
-        // simulate received JSONObject by using String array values
-        received = new JSONObject();
-        JSONArray array = new JSONArray();
-        for (int i = 0; i < values.length / columns.size(); i++) {
-            JSONObject cur = new JSONObject();
-            for (int j = 0; j < columns.size(); j++) {
-                cur.put(columns.get(j), values[j + i * columns.size()]);
-            }
-            array.put(cur);
-        }
-        received.put("Records", array);
-        // parsing the simulated received JSON data
-        JSONArray receivedArray = (JSONArray)received.get("Records");
+        JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
             JSONObject cur = receivedArray.getJSONObject(i);
             // adding header to each json object
@@ -161,82 +134,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 // column value in the second column
                 column_value = new TextView(this);
                 column_value.setText(cur.get(columns.get(j % columns.size())).toString());
-                column_value.setTextColor(Color.BLACK);
-                column_value.setLayoutParams(new LayoutParams(
-                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                column_value.setPadding(5, 5, 5, 5);
-                tr.addView(column_value);
-
-                tl.addView(tr, new TableLayout.LayoutParams(
-                        LayoutParams.MATCH_PARENT,
-                        LayoutParams.WRAP_CONTENT));
-            }
-
-            // adding buttons to modify the current record
-            record_tail = new TableRow(this);
-            push_edit = new EditText(this);
-            push_edit.setText("5%");
-            push_edit.setPadding(0, 0, 0, 0);
-            push_edit.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-            push = new Button(this);
-            push.setText("Push");
-            push.setPadding(0, 0, 0, 0);
-            push.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-            pull = new Button(this);
-            pull.setText("Pull");
-            pull.setPadding(0, 0, 0, 0);
-            pull.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-            record_tail.addView(pull);
-            record_tail.addView(push_edit);
-            record_tail.addView(push);
-
-            tl.addView(record_tail, new TableLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT));
-        }
-    }
-
-    /**
-     * simulate receiving data using array and arrayList
-     */
-    public void showData() {
-        for (int i = 0; i < values.length / columns.size(); i++) {
-            // adding header to each json object
-            record_header = new TableRow(this);
-            head_info = new TextView(this);
-            head_info.setText("record " + (i + 1) + " of " + JSON_count);
-            head_info.setTextColor(Color.BLUE);
-            head_info.setLayoutParams(new LayoutParams(
-                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-            head_info.setPadding(5, 5, 5, 5);
-            record_header.addView(head_info);
-
-            tl.addView(record_header, new TableLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT));
-
-            for (int j = 0; j < columns.size(); j++) {
-                tr = new TableRow(this);
-                tr.setLayoutParams(new LayoutParams(
-                        LayoutParams.MATCH_PARENT,
-                        LayoutParams.WRAP_CONTENT));
-                // column name in the first column
-                column_name = new TextView(this);
-                column_name.setText(columns.get(j % columns.size()));
-                column_name.setTextColor(Color.BLACK);
-                column_name.setLayoutParams(new LayoutParams(
-                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                column_name.setPadding(5, 5, 5, 5);
-                tr.addView(column_name);
-                // column value in the second column
-                column_value = new TextView(this);
-                column_value.setText(values[j + i * columns.size()]);
                 column_value.setTextColor(Color.BLACK);
                 column_value.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));

@@ -61,7 +61,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     String[] timeItems = new String[]{"1/4/2015 17:00", "1/5/2015 17:00", "1/6/2015 17:00","1/7/2015 17:00"};
     String[] divisionItems = {"Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
     String[] additionalItems = {"review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
-    String[] showFieldsItems = {"Attempts", "Completed", "Failed", "Minutes", "CCR"};
+    String[] showFieldsItems = {"Switch", "Strike", "Completed", "Minutes", "CCR"};
 
     List<String> selectionTime = new ArrayList<String>();
     List<String> selectionCountry = new ArrayList<String>();
