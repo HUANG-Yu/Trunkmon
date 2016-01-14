@@ -39,7 +39,6 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import util.MultiSelectionSpinner;
 
 import java.io.BufferedReader;
@@ -135,11 +134,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                     request = req.toString();
                     i.putExtra("request", request);
 
-                    String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+                    String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds").get();
 
                     TextView tv_response = (TextView)findViewById(R.id.tv_response);
                     tv_response.setText(response);
-                    i.putExtra("response",response);
+                    i.putExtra("response", response);
                     Log.i("Response",response);
                     startActivity(i);
 
@@ -321,7 +320,7 @@ class AWSResponse extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         BufferedReader reader = null;
         try {
-            URL url = new URL("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds");
+            URL url = new URL("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             StringBuilder sb = new StringBuilder();
