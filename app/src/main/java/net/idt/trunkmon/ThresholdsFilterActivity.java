@@ -2,14 +2,9 @@ package net.idt.trunkmon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 
 import util.MultiSelectionSpinner;
@@ -45,15 +40,15 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
             startCountryItems[i] = "" + cur;
         }
 
-        countrySpinner = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
+        countrySpinner = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
         countrySpinner.spinner_title = "Country";
         countrySpinner.setItems(countryItems);
 
-        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.thStartCountrySpinner);
+        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
         startCountrySpinner.spinner_title = "Country Starts From";
         startCountrySpinner.setItems(startCountryItems);
 
-        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.thDivisionSpinner);
+        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
         divisionSpinner.spinner_title = "Division";
         divisionSpinner.setItems(divisionItems);
     }
