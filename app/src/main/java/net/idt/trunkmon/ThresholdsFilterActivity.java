@@ -20,7 +20,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
     private MultiSelectionSpinner divisionSpinner;
 
     String[] countryItems = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola"};
-    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    String[] startCountryItems = new String[26];
     String[] divisionItems = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
 
     @Override
@@ -38,6 +38,12 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // generate startCountry drop down content
+        for (int i = 0; i < 26; i++) {
+            char cur = (char)(65 + i);
+            startCountryItems[i] = "" + cur;
+        }
 
         countrySpinner = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
         countrySpinner.spinner_title = "Country";

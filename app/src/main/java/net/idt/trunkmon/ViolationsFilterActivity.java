@@ -28,8 +28,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     private MultiSelectionSpinner additionalSpinner;
     private MultiSelectionSpinner showFieldsSpinner;
     private MultiSelectionSpinner timeDropdown;
-    String[] startCountryItems = {"A", "B"};
-    //String[] startCountryItems = new String[26];
+    String[] startCountryItems = new String[26];
     String[] timeItems;
     String[] divisionItems = {"Gold", "USDebit", "Silver", "UKDebit", "Carriers"};
     String[] additionalItems = {"review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
@@ -56,12 +55,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             }
         });
 
-        /* generate startCountry
+        // generate startCountry drop down content
         for (int i = 0; i < 26; i++) {
-            char cur = ;
+            char cur = (char)(65 + i);
             startCountryItems[i] = "" + cur;
         }
-        */
 
         timeItems = getTimeItems();
         timeDropdown = (MultiSelectionSpinner) findViewById(R.id.thCountrySpinner);
