@@ -92,15 +92,15 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     JSONArray startCountry = new JSONArray(selectionStartCountry);
                     req.put("startCountry", selectionStartCountry);
 
-                    Intent i = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
+                    Intent i = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                     request = req.toString();
                     i.putExtra("request", request);
                     //  startActivity(i);
-                   String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
-                  // String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
-                  // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
+                    String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
+                    // String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+                    // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
 
-                   // TextView tv_response = (TextView) findViewById(R.id.tv_response);
+                    // TextView tv_response = (TextView) findViewById(R.id.tv_response);
                     //tv_response.setText(response);
                     i.putExtra("response", response);
                     Log.i("Response", response);
@@ -114,6 +114,34 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
             }
         });
 
+        BootstrapButton btn_reset = (BootstrapButton)findViewById(R.id.tResetButton);
+        btn_reset.setRounded(true);
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
+                tagview_country.removeAllTags();
+                selectionCountry.clear();
+                for (int k = 0; k < countryItems.length; k++) {
+                    countrySpinner.mSelection[k] = false;
+                }
+
+                TagView tagview_startCountry = (TagView) findViewById(R.id.tagview_startCountry);
+                tagview_startCountry.removeAllTags();
+                selectionStartCountry.clear();
+                for (int k = 0; k < startCountryItems.length; k++) {
+                    startCountrySpinner.mSelection[k] = false;
+                }
+
+                TagView tagview_division = (TagView) findViewById(R.id.tagview_division);
+                tagview_division.removeAllTags();
+                selectionDivision.clear();
+                for (int k = 0; k < divisionItems.length; k++) {
+                    divisionSpinner.mSelection[k] = false;
+                }
+            }
+
+        });
 
     }
 
