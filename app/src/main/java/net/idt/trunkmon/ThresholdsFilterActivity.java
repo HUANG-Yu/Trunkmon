@@ -9,17 +9,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import util.MultiSelectionSpinner;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class ThresholdsFilterActivity extends AppCompatActivity {
-    private MultiSelectionSpinner countrySpinner;
-    private MultiSelectionSpinner startCountrySpinner;
-    private MultiSelectionSpinner divisionSpinner;
+import java.util.ArrayList;
+import java.util.List;
+
+import me.kaede.tagview.OnTagDeleteListener;
+import me.kaede.tagview.Tag;
+import me.kaede.tagview.TagView;
+import util.MultiSelectionSpinner;
+import util.MultiSelectionSpinner_thresholds;
+
+
+public class ThresholdsFilterActivity extends AppCompatActivity implements Communicator1{
+    private MultiSelectionSpinner_thresholds countrySpinner;
+    private MultiSelectionSpinner_thresholds startCountrySpinner;
+    private MultiSelectionSpinner_thresholds divisionSpinner;
 
     String[] countryItems = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola"};
-    String[] startCountryItems = new String[26];
+    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     String[] divisionItems = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
 
+    List<String> selectionStartCountry = new ArrayList<String>();
+    List<String> selectionCountry = new ArrayList<String>();
+    List<String> selectionDivision = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,32 +41,154 @@ public class ThresholdsFilterActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button applyBt = (Button)findViewById(R.id.tApplyButton);
-        applyBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // generate startCountry drop down content
-        for (int i = 0; i < 26; i++) {
-            char cur = (char)(65 + i);
-            startCountryItems[i] = "" + cur;
-        }
-
-        countrySpinner = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
+        countrySpinner = (MultiSelectionSpinner_thresholds)findViewById(R.id.thCountrySpinner);
         countrySpinner.spinner_title = "Country";
         countrySpinner.setItems(countryItems);
 
-        startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
-        startCountrySpinner.spinner_title = "Country Starts From";
-        startCountrySpinner.setItems(startCountryItems);
 
-        divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
-        divisionSpinner.spinner_title = "Division";
+
+        startCountrySpinner = (MultiSelectionSpinner_thresholds) findViewById(R.id.thStartCountrySpinner);
+        startCountrySpinner.spinner_title = "Start Country";
+        startCountrySpinner.setItems(startCountryItems);
+        //startCountrySpinner.setSelection(new int[]{2, 6});
+
+
+        divisionSpinner = (MultiSelectionSpinner_thresholds) findViewById(R.id.thDivisionSpinner);
+        divisionSpinner.spinner_title= "Division";
         divisionSpinner.setItems(divisionItems);
+
+        Button btn_apply = (Button)findViewById(R.id.tApplyButton);
+        btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String request = "";
+                AWSResponse resp = new AWSResponse();
+                // Log.i("AWS RESPONSE", resp.e)
+                try {
+                    JSONObject req = new JSONObject();
+
+
+                    JSONArray country = new JSONArray(selectionCountry);
+                    req.put("country", country);
+
+                    JSONArray division = new JSONArray(selectionDivision);
+                    req.put("division", division);
+
+                    JSONArray startCountry = new JSONArray(selectionStartCountry);
+                    req.put("startCountry", selectionStartCountry);
+
+                    Intent i = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
+                    request = req.toString();
+                    i.putExtra("request", request);
+                    //  startActivity(i);
+                   /*String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+
+                   // TextView tv_response = (TextView) findViewById(R.id.tv_response);
+                    //tv_response.setText(response);
+                    i.putExtra("response", response);
+                    Log.i("Response", response);
+                    */
+                    startActivity(i);
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
+
+
+    }
+
+    @Override
+    public void responsestartCountry(ArrayList<String> text) {
+
+
+        TagView tagview_country = (TagView)findViewById(R.id.tagview_startCountry);
+        tagview_country.removeAllTags();
+        // List<String> selection = new ArrayList<String>(text);
+        selectionStartCountry.clear();
+        selectionStartCountry = new ArrayList<String>(text);
+        //selection.add("check1");
+        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        for(String s:selectionStartCountry)
+        {
+            Tag tag = new Tag(s);
+            tag.isDeletable = true;
+            tagview_country.addTag(tag);
+        }
+        tagview_country.setOnTagDeleteListener(new OnTagDeleteListener() {
+            @Override
+            public void onTagDeleted(Tag tag, int i) {
+                for(int k=0;k<countryItems.length;k++)
+                {
+                    if(startCountryItems[k].contains(tag.text.toString()))
+                    {
+                        startCountrySpinner.mSelection[k] = false;
+                    }
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void responseCountry(ArrayList<String> text) {
+
+        TagView tagview_country = (TagView)findViewById(R.id.tagview_country);
+        tagview_country.removeAllTags();
+        // List<String> selection = new ArrayList<String>(text);
+        selectionCountry.clear();
+        selectionCountry = new ArrayList<String>(text);
+        //selection.add("check1");
+        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        for(String s:selectionCountry)
+        {
+            Tag tag = new Tag(s);
+            tag.isDeletable = true;
+            tagview_country.addTag(tag);
+        }
+        tagview_country.setOnTagDeleteListener(new OnTagDeleteListener() {
+            @Override
+            public void onTagDeleted(Tag tag, int i) {
+                for(int k=0;k<countryItems.length;k++)
+                {
+                    if(countryItems[k].contains(tag.text.toString()))
+                    {
+                        countrySpinner.mSelection[k] = false;
+                    }
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void responseDivision(ArrayList<String> text) {
+        TagView tagview_division = (TagView)findViewById(R.id.tagview_division);
+        tagview_division.removeAllTags();
+        //List<String> selection = new ArrayList<String>(text);
+        selectionDivision.clear();
+        selectionDivision = new ArrayList<String>(text);
+        //selection.add("check1");
+        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        for(String s:selectionDivision)
+        {
+            Tag tag = new Tag(s);
+            tag.isDeletable = true;
+            tagview_division.addTag(tag);
+        }
+        tagview_division.setOnTagDeleteListener(new OnTagDeleteListener() {
+            @Override
+            public void onTagDeleted(Tag tag, int i) {
+                for (int k = 0; k < divisionItems.length; k++) {
+                    if (divisionItems[k].contains(tag.text.toString())) {
+                        divisionSpinner.mSelection[k] = false;
+                    }
+                }
+
+            }
+        });
     }
 
     @Override

@@ -12,34 +12,14 @@
     tools:context="net.idt.trunkmon.ThresholdsFilterActivity"
     tools:showIn="@layout/activity_thresholds_filter">
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <util.MultiSelectionSpinner
-            android:id="@+id/timeSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <me.kaede.tagview.TagView
-            android:id="@+id/tagview_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:lineMargin="5dp"
-            app:tagMargin="3dp"
-            app:textPaddingBottom="3dp"
-            app:textPaddingLeft="10dp"
-            app:textPaddingRight="10dp"
-            app:textPaddingTop="3dp"
-            android:clickable="true"
-            android:layout_alignTop="@+id/timeSpinner"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-        </me.kaede.tagview.TagView>
-
-        <util.MultiSelectionSpinner
-            android:id="@+id/startCountrySpinner"
+        <util.MultiSelectionSpinner_thresholds
+            android:id="@+id/thCountrySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -54,13 +34,34 @@
             app:textPaddingRight="10dp"
             app:textPaddingTop="3dp"
             android:clickable="true"
-            android:layout_alignTop="@+id/startCountrySpinner"
+            android:layout_alignTop="@+id/thCountrySpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
         </me.kaede.tagview.TagView>
 
-        <util.MultiSelectionSpinner
-            android:id="@+id/divisionSpinner"
+        <util.MultiSelectionSpinner_thresholds
+            android:id="@+id/thStartCountrySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <me.kaede.tagview.TagView
+            android:id="@+id/tagview_startCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lineMargin="5dp"
+            app:tagMargin="3dp"
+            app:textPaddingBottom="3dp"
+            app:textPaddingLeft="10dp"
+            app:textPaddingRight="10dp"
+            app:textPaddingTop="3dp"
+            android:clickable="true"
+            android:layout_alignTop="@+id/thStartCountrySpinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </me.kaede.tagview.TagView>
+
+        <util.MultiSelectionSpinner_thresholds
+            android:id="@+id/thDivisionSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -75,7 +76,7 @@
             app:textPaddingRight="10dp"
             app:textPaddingTop="3dp"
             android:clickable="true"
-            android:layout_alignTop="@+id/divisionSpinner"
+            android:layout_alignTop="@+id/thDivisionSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
         </me.kaede.tagview.TagView>
@@ -117,5 +118,6 @@
         </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>
