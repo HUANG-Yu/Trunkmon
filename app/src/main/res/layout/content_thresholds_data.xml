@@ -12,4 +12,10 @@
     tools:context="net.idt.trunkmon.ThresholdsDataActivity"
     tools:showIn="@layout/activity_thresholds_data">
 
+    <Button
+        android:id="@+id/edit"
+        android:text="edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

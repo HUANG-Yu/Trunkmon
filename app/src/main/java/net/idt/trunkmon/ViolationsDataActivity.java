@@ -30,9 +30,6 @@ import java.util.List;
 import java.util.Set;
 
 public class ViolationsDataActivity extends AppCompatActivity {
-    // decided by the JSON length passed back from the server
-    int JSON_count = 86;
-
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
@@ -74,7 +71,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
         legendSet.add("ALOC");
         legendSet.add("CCRThresholds");
         legendSet.add("ALOCThresholds");
-        if (cur.get("CCR").toString().compareTo(cur.get("CCR Thresholds").toString()) > 0) {
+        if (cur.get("CCR").toString().compareTo((cur.get("CCR Thresholds").toString())+"9") > 0) {
             flags.CCR = true;
         }
         if (cur.get("ALOC").toString().compareTo(cur.get("ALOC Delta From Threshold %").toString()) > 0) {
@@ -145,7 +142,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
             // adding header to each json object
             record_header = new TableRow(this);
             head_info = new TextView(this);
-            head_info.setText("record " + (i + 1) + " of " + JSON_count);
+            head_info.setText("record " + (i + 1) + " of " + receivedArray.length());
             head_info.setTextColor(Color.BLUE);
             head_info.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -178,10 +175,14 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 if (legendSet.contains(cur_column)) {
                     switch(cur_column) {
                         case "CCR":
-                            column_value.setBackgroundColor(Color.YELLOW);
+                            if (flags.CCR) {
+                                column_value.setBackgroundColor(Color.YELLOW);
+                            }
                             break;
                         case "ALOC":
-                            column_value.setBackgroundColor(Color.LTGRAY);
+                            if (flags.ALOC) {
+                                column_value.setBackgroundColor(Color.LTGRAY);
+                            }
                             break;
                         // add more if needed
                     }

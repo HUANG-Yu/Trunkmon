@@ -14,11 +14,9 @@ import android.content.Intent;
 import android.util.Log;
 
 public class SelectionsActivity extends AppCompatActivity {
-    private static final String TAG = "selection log message";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "selection activity onCreate");
         setContentView(R.layout.activity_selections);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,7 +28,6 @@ public class SelectionsActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(),ViolationsFilterActivity.class);
                 startActivity(intent);
-                Log.i(TAG, "violations button clicked");
             }
         });
 
@@ -40,7 +37,6 @@ public class SelectionsActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(),ThresholdsFilterActivity.class);
                 startActivity(intent);
-                Log.i(TAG, "thresholds button clicked");
             }
         });
     }

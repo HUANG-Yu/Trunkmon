@@ -1,11 +1,18 @@
 package net.idt.trunkmon;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.widget.Toast;
 
 public class ThresholdsDataActivity extends AppCompatActivity {
 
@@ -15,6 +22,35 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_thresholds_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*
+        Button edit = (Button)findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                AlertDialog.Builder popup = new AlertDialog.Builder(ThresholdsDataActivity.this);
+                popup.setTitle("Edit");
+                popup.setMessage("Edit Fields");
+
+                popup.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
+                                Intent myIntent1 = new Intent(view.getContext(), LoginActivity.class);
+                            }
+                        });
+
+                popup.setNegativeButton("Reset",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                dialog.cancel();
+                            }
+                        });
+                popup.show();
+            }
+        });
+        */
 
     }
 

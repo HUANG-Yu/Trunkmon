@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -81,14 +82,11 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     Intent i = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
                     request = req.toString();
                     i.putExtra("request", request);
-                    //  startActivity(i);
-                   /*String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+                   String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
 
-                   // TextView tv_response = (TextView) findViewById(R.id.tv_response);
-                    //tv_response.setText(response);
                     i.putExtra("response", response);
                     Log.i("Response", response);
-                    */
+
                     startActivity(i);
 
                 } catch (Exception e) {
