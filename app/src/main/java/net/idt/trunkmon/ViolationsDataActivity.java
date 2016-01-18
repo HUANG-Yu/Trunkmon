@@ -25,7 +25,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ViolationsDataActivity extends AppCompatActivity {
     // decided by the JSON length passed back from the server
@@ -46,6 +48,41 @@ public class ViolationsDataActivity extends AppCompatActivity {
     JSONObject response;
 
     private GoogleApiClient client;
+
+    Set<String> legendSet = new HashSet<String>();
+
+    /**
+     * Inner class of ViolationsDataActivity
+     */
+    private class LegendFlag {
+        boolean CCR;
+        boolean ALOC;
+        boolean CCRThresholds;
+        boolean ALOCThresholds;
+    }
+
+    /**
+     * This method decides which cell of the data table needs to be highlighted.
+     *
+     * @param cur the current JSONObject
+     * @return the legendFlags
+     */
+    private LegendFlag legendHighlighterLogic(JSONObject cur) throws JSONException {
+        LegendFlag flags = new LegendFlag();
+        // adding all highlighted relevant column names
+        legendSet.add("CCR");
+        legendSet.add("ALOC");
+        legendSet.add("CCRThresholds");
+        legendSet.add("ALOCThresholds");
+        if (cur.get("CCR").toString().compareTo(cur.get("CCR Thresholds").toString()) > 0) {
+            flags.CCR = true;
+        }
+        if (cur.get("ALOC").toString().compareTo(cur.get("ALOC Delta From Threshold %").toString()) > 0) {
+            flags.ALOC = true;
+        }
+        // other color logics added here to be consistent with the API in the web app
+        return flags;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +141,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
             JSONObject cur = receivedArray.getJSONObject(i);
+            LegendFlag flags = legendHighlighterLogic(cur);
             // adding header to each json object
             record_header = new TableRow(this);
             head_info = new TextView(this);
@@ -124,8 +162,9 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
                 // column name in the first column
+                String cur_column = columns.get(j % columns.size());
                 column_name = new TextView(this);
-                column_name.setText(columns.get(j % columns.size()));
+                column_name.setText(cur_column);
                 column_name.setTextColor(Color.BLACK);
                 column_name.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -133,8 +172,20 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 tr.addView(column_name);
                 // column value in the second column
                 column_value = new TextView(this);
-                column_value.setText(cur.get(columns.get(j % columns.size())).toString());
+                column_value.setText(cur.get(cur_column).toString());
                 column_value.setTextColor(Color.BLACK);
+                // manipulate the representation of color highlighter in data table
+                if (legendSet.contains(cur_column)) {
+                    switch(cur_column) {
+                        case "CCR":
+                            column_value.setBackgroundColor(Color.YELLOW);
+                            break;
+                        case "ALOC":
+                            column_value.setBackgroundColor(Color.LTGRAY);
+                            break;
+                        // add more if needed
+                    }
+                }
                 column_value.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                 column_value.setPadding(5, 5, 5, 5);
@@ -160,7 +211,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
             pull = new Button(this);
             pull.setText("Pull");
-            pull.setPadding(0, 0, 0, 0);
+            pull.setPadding(10, 0, 30, 10);
             pull.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
