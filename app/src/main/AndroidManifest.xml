@@ -40,7 +40,7 @@
             android:theme="@style/AppTheme.ThresLegend" />
         <activity
             android:name=".ThresholdsDataActivity"
-            android:label="@string/title_activity_thresholds_data"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
