@@ -1,6 +1,8 @@
 package net.idt.trunkmon;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,10 +12,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.util.Log;
+import android.widget.TableLayout;
+
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +71,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         divisionSpinner.spinner_title= "Division";
         divisionSpinner.setItems(divisionItems);
 
-        Button btn_apply = (Button)findViewById(R.id.tApplyButton);
+        BootstrapButton btn_apply = (BootstrapButton)findViewById(R.id.tApplyButton);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,10 +97,14 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     i.putExtra("request", request);
                     //  startActivity(i);
                    String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
-                   String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+                  // String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
+                  // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
 
+                   // TextView tv_response = (TextView) findViewById(R.id.tv_response);
+                    //tv_response.setText(response);
                     i.putExtra("response", response);
                     Log.i("Response", response);
+
 
                     startActivity(i);
 
@@ -222,5 +238,40 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         }
         return super.onOptionsItemSelected(item);
     }
+
+}
+
+class AWSResponse extends AsyncTask<String, Void, String> {
+
+    private Exception exception;
+    ProgressDialog progressDialog;
+    String res;
+    protected String doInBackground(String... urls) {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urls[0]);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            StringBuilder sb = new StringBuilder();
+
+            InputStreamReader is = new InputStreamReader(connection.getInputStream());
+
+            reader = new BufferedReader(is);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+
+            res = sb.toString();
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
 
 }

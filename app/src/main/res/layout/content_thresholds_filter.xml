@@ -87,35 +87,59 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
 
-            <Button
+            <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="reset"
                 android:id="@+id/tResetButton"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:showOutline="false"
+                app:roundedCorners="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignRight="@+id/textView5"
                 android:layout_alignEnd="@+id/textView5"
-                android:layout_marginBottom="46dp" />
+                android:layout_marginBottom="46dp"
 
-            <Button
+                android:layout_marginRight="5dp" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:showOutline="false"
+                app:roundedCorners="true"
                 android:text="Previous Filter"
                 android:id="@+id/tPreFilterButton"
                 android:layout_alignBottom="@+id/vResetButton"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
 
-            <Button
+            <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="apply"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:showOutline="false"
+                app:roundedCorners="true"
                 android:id="@+id/tApplyButton"
                 android:layout_alignBottom="@+id/vPreFilterButton"
                 android:layout_toEndOf="@+id/vPreFilterButton"
-                android:layout_toRightOf="@+id/vPreFilterButton"/>
+                android:layout_toRightOf="@+id/vPreFilterButton"
+                android:layout_marginLeft="5dp" />
+
+
         </LinearLayout>
+
 
     </LinearLayout>
 

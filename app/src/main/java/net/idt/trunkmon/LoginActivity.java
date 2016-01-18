@@ -13,6 +13,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.content.Intent;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "login log message";
 
@@ -24,14 +27,25 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button loginBt = (Button)findViewById(R.id.loginBt);
-        loginBt.setOnClickListener(new View.OnClickListener() {
+        BootstrapEditText et_boot_username = (BootstrapEditText)findViewById(R.id.et_boot_username);
+        et_boot_username.setRounded(true);
+
+        BootstrapEditText et_boot_password = (BootstrapEditText)findViewById(R.id.et_boot_password);
+        et_boot_password.setRounded(true);
+
+        BootstrapButton btn_boot_login = (BootstrapButton)findViewById(R.id.boot_btn_login);
+
+
+        btn_boot_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),SelectionsActivity.class);
                 Log.i(TAG, "login button clicked");
                 startActivity(intent);
             }
         });
     }
+
+
+
 }

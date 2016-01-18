@@ -1,8 +1,10 @@
 package net.idt.trunkmon;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapSize;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +46,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
     TableRow record_header, record_tail;
     TextView head_info;
     EditText push_edit;
-    Button push, pull;
+    BootstrapButton push, pull;
+
 
     List<String> columns;
 
@@ -84,15 +94,16 @@ public class ViolationsDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_violations_data);
+        /* setContentView(R.layout.activity_violations_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tl = (TableLayout) findViewById(R.id.violations_table);
+        */
         try {
             recreate_json();
-            generateColumns();
-            showResult();
-        } catch (JSONException e) {
+            //  generateColumns();
+            // showResult();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -101,11 +112,24 @@ public class ViolationsDataActivity extends AppCompatActivity {
     }
 
     public void recreate_json() throws JSONException{
-        Intent intent = getIntent();
-        request = new JSONObject(intent.getExtras().getString("request"));
-        Log.i("request", intent.getExtras().getString("request"));
-        response = new JSONObject(intent.getExtras().getString("response"));
-        Log.i("response", intent.getExtras().getString("response"));
+        try
+        {
+            AWSResponse resp = new AWSResponse();
+            Intent intent = getIntent();
+            request = new JSONObject(intent.getExtras().getString("request"));
+            Log.i("request", intent.getExtras().getString("request"));
+            //response = new JSONObject(intent.getExtras().getString("response"));
+            // String res = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds").get();
+            resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds");
+            /*
+            response = new JSONObject(res);
+            Log.i("response", res);
+            */
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
     /**
@@ -134,8 +158,9 @@ public class ViolationsDataActivity extends AppCompatActivity {
      *
      * @throws JSONException
      */
-    public void showResult() throws JSONException {
+    public void showResult(ProgressDialog progressDialog) throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
+
         for (int i = 0; i < receivedArray.length(); i++) {
             JSONObject cur = receivedArray.getJSONObject(i);
             LegendFlag flags = legendHighlighterLogic(cur);
@@ -204,18 +229,33 @@ public class ViolationsDataActivity extends AppCompatActivity {
             push_edit.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-            push = new Button(this);
+            push = new BootstrapButton(this);
+
+            push.setRounded(true);
+            //push.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            //push.setLayoutParams(new LayoutParams("%", LayoutParams.WRAP_CONTENT));
+            push.setWidth(80);
+            push.setHeight(50);
+            // push.setBootstrapMode("primary");
+            //push.setBootstrapSize("1g");
+            push.setBootstrapSize(DefaultBootstrapSize.SM);
+            push.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
             push.setText("Push");
             push.setPadding(0, 0, 0, 0);
-            push.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-            pull = new Button(this);
+            pull = new BootstrapButton(this);
             pull.setText("Pull");
+            pull.setRounded(true);
+            pull.setWidth(80);
+            pull.setHeight(50);
+            pull.setBootstrapSize(DefaultBootstrapSize.SM);
+            pull.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+
+/*
             pull.setPadding(10, 0, 30, 10);
             pull.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
+*/
             record_tail.addView(pull);
             record_tail.addView(push_edit);
             record_tail.addView(push);
@@ -224,6 +264,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
                     LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT));
         }
+        progressDialog.dismiss();
+
     }
 
     // override onclicklistener on push button
@@ -306,5 +348,71 @@ public class ViolationsDataActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    class AWSResponse extends AsyncTask<String, Void, String> {
+
+        private Exception exception;
+        ProgressDialog progressDialog;
+        String res;
+        protected String doInBackground(String... urls) {
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                StringBuilder sb = new StringBuilder();
+
+                InputStreamReader is = new InputStreamReader(connection.getInputStream());
+
+                reader = new BufferedReader(is);
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+                res = sb.toString();
+                return res;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(ViolationsDataActivity.this,"Loading...",
+                    "Loading application View, please wait...", false, false);
+
+        }
+
+        protected void onPostExecute(String response1) {
+            setContentView(R.layout.activity_violations_data);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            try {
+                response = new JSONObject(response1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("response", res);
+            tl = (TableLayout) findViewById(R.id.violations_table);
+            try {
+                //recreate_json();
+                generateColumns();
+                showResult(progressDialog);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // ATTENTION: This was auto-generated to implement the App Indexing API.
+            // See https://g.co/AppIndexing/AndroidStudio for more information.
+           // progressDialog.dismiss();
+            //initialize the View
+
+            client = new GoogleApiClient.Builder(ViolationsDataActivity.this).addApi(AppIndex.API).build();
+
+        }
     }
 }

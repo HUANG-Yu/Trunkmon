@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.content.Intent;
 import android.util.Log;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
 public class SelectionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +23,16 @@ public class SelectionsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        Button vbutton = (Button)findViewById(R.id.vbutton);
+        BootstrapButton vbutton = (BootstrapButton)findViewById(R.id.boot_btn_violations);
         vbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ViolationsFilterActivity.class);
                 startActivity(intent);
             }
         });
 
-        Button tbutton = (Button)findViewById(R.id.tbutton);
+        BootstrapButton tbutton = (BootstrapButton)findViewById(R.id.boot_btn_thresholds);
         tbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -39,6 +40,7 @@ public class SelectionsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

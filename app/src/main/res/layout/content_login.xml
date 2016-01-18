@@ -10,52 +10,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="net.idt.trunkmon.LoginActivity"
-    tools:showIn="@layout/activity_login">
+    tools:showIn="@layout/activity_login"
+    android:background="#daf2ecec">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="user name"
-        android:id="@+id/usrNameLabel"
-        android:layout_marginTop="209dp" />
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        app:bootstrapSize="md"
+        app:bootstrapBrand="primary"
+        android:id="@+id/et_boot_username"
+        android:hint="Username"
+        android:inputType="textAutoComplete|textAutoCorrect"
+        android:layout_above="@+id/et_boot_password"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp" />
 
-    <EditText
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/usrNameTextFiled"
-        android:text="Yingying"
-        android:layout_alignTop="@+id/usrNameLabel"
-        android:layout_alignRight="@+id/passwordTextField"
-        android:layout_alignEnd="@+id/passwordTextField" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/passwordTextField"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/usrNameTextFiled"
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:id="@+id/et_boot_password"
+        android:layout_marginBottom="69dp"
+        app:bootstrapBrand="primary"
+        android:layout_above="@+id/boot_btn_login"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="123456" />
+        android:hint="Password">
+    </com.beardedhen.androidbootstrap.BootstrapEditText>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="password"
-        android:id="@+id/textView6"
-        android:layout_alignTop="@+id/passwordTextField"
-        android:layout_alignLeft="@+id/usrNameLabel"
-        android:layout_alignStart="@+id/usrNameLabel" />
-
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/loginBt"
-        android:layout_below="@+id/passwordTextField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="41dp" />
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:showOutline="false"
+        app:roundedCorners="true"
+        android:id="@+id/boot_btn_login"
+        android:focusableInTouchMode="false"
+        android:layout_marginBottom="164dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

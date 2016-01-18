@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import me.kaede.tagview.OnTagDeleteListener;
 import me.kaede.tagview.Tag;
 import me.kaede.tagview.TagView;
@@ -54,7 +56,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button applyBt = (Button) findViewById(R.id.vApplyButton);
+
 
         getTimeItems();
         getCountryItems();
@@ -80,13 +82,14 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         showFieldsSpinner.spinner_title = "Showfields";
         showFieldsSpinner.setItems(showFieldsItems);
 
-        Button btn_apply = (Button) findViewById(R.id.vApplyButton);
+        BootstrapButton btn_apply = (BootstrapButton)findViewById(R.id.vApplyButton);
+        btn_apply.setRounded(true);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String request = "";
-                AWSResponse resp = new AWSResponse();
+                //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
                     JSONObject req = new JSONObject();
@@ -108,10 +111,12 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                     request = req.toString();
                     i.putExtra("request", request);
 
-                    String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds").get();
+                    // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds").get();
 
-                    i.putExtra("response", response);
-                    Log.i("Response", response);
+                    //TextView tv_response = (TextView)findViewById(R.id.tv_response);
+                    //tv_response.setText(response);
+                    //i.putExtra("response", response);
+                    //Log.i("Response",response);
                     startActivity(i);
 
                 } catch (Exception e) {
@@ -120,7 +125,6 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -327,42 +331,3 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
 }
 
-
-class AWSResponse extends AsyncTask<String, Void, String> {
-
-    private Exception exception;
-
-    protected String doInBackground(String... urls) {
-        BufferedReader reader = null;
-        try {
-
-            URL url = new URL(urls[0]);
-            Log.i("URL",urls[0]);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            StringBuilder sb = new StringBuilder();
-
-            InputStreamReader is = new InputStreamReader(connection.getInputStream());
-
-            reader = new BufferedReader(is);
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-
-
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-    protected void onPostExecute(String response) {
-        // TODO: check this.exception
-        // TODO: do something with the feed
-
-    }
-}

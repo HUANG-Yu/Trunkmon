@@ -10,24 +10,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="net.idt.trunkmon.SelectionsActivity"
-    tools:showIn="@layout/activity_selections">
+    tools:showIn="@layout/activity_selections"
+    android:background="#daf2ecec"
+    >
 
-    <Button
-        android:layout_width="wrap_content"
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Violations"
-        android:id="@+id/vbutton"
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:showOutline="false"
+        app:roundedCorners="true"
+        android:id="@+id/boot_btn_violations"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp" />
-
-    <Button
-        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="48dp" />
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thresholds"
-        android:id="@+id/tbutton"
-        android:layout_below="@+id/vbutton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp" />
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:showOutline="false"
+        app:roundedCorners="true"
+        android:id="@+id/boot_btn_thresholds"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/boot_btn_violations"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

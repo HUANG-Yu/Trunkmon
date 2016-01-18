@@ -26,5 +26,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.github.kaedea:Android-Cloud-TagView-Plus:5a49f4fbb6'
+    compile 'com.beardedhen:androidbootstrap:2.0.1'
 
 }

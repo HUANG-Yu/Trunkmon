@@ -1,54 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.idt.trunkmon">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".SelectionsActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViolationsFilterActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViolationsDataActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ThresholdsFilterActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vioPopLegend"
+            android:theme="@style/AppTheme.VioLegend" />
+        <activity
+            android:name=".thresPopLegend"
+            android:theme="@style/AppTheme.ThresLegend" />
+        <activity
+            android:name=".ThresholdsDataActivity"
+            android:label="@string/title_activity_thresholds_data"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".splashscreen"
+            android:label="Trunkmon"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SelectionsActivity"
-            android:label="@string/title_activity_selections"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ViolationsFilterActivity"
-            android:label="@string/title_activity_violations_filter"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ViolationsDataActivity"
-            android:label="@string/title_activity_violations_data"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ThresholdsFilterActivity"
-            android:label="@string/title_activity_thresholds_filter"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".vioPopLegend"
-            android:theme="@style/AppTheme.VioLegend"/>
-        <activity
-            android:name=".thresPopLegend"
-            android:theme="@style/AppTheme.ThresLegend"/>
-        <activity
-            android:name=".ThresholdsDataActivity"
-            android:label="@string/title_activity_thresholds_data"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

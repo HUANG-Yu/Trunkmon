@@ -15,9 +15,26 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="40dp"
+            android:background="#fbf90616"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:textAlignment="gravity"
+            android:foregroundGravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Data"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"
+                android:autoText="false"
+                android:elegantTextHeight="false"
+
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
