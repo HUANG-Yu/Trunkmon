@@ -43,11 +43,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     String[] additionalItems = {"review-pulled", "auto-pulled", "cross division saved", "excluded locations", "managed countries only"};
     String[] showFieldsItems = {"Switch", "Strike", "Completed", "Minutes", "CCR", "ALOC", "ALOC Delta From Threshold %"};
 
-    List<String> selectionTime = new ArrayList<String>();
-    List<String> selectionCountry = new ArrayList<String>();
-    List<String> selectionDivision = new ArrayList<String>();
-    List<String> selectionAddItems = new ArrayList<String>();
-    List<String> selectionShowFields = new ArrayList<String>();
+    List<String> selectionTime = new ArrayList<>();
+    List<String> selectionCountry = new ArrayList<>();
+    List<String> selectionDivision = new ArrayList<>();
+    List<String> selectionAddItems = new ArrayList<>();
+    List<String> selectionShowFields = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View v) {
 
-                String request = "";
+                String request;
                 //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
@@ -123,6 +123,45 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
                 }
             }
+        });
+
+        BootstrapButton btn_reset = (BootstrapButton)findViewById(R.id.vResetButton);
+        btn_reset.setRounded(true);
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TagView tagview_time = (TagView) findViewById(R.id.tagview_time);
+                tagview_time.removeAllTags();
+                selectionTime.clear();
+                for (int k = 0; k < timeItems.length; k++) {
+                    timeDropdown.mSelection[k] = false;
+                }
+                TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
+                tagview_country.removeAllTags();
+                selectionCountry.clear();
+                for (int k = 0; k < startCountryItems.length; k++) {
+                    startCountrySpinner.mSelection[k] = false;
+                }
+                TagView tagview_division = (TagView) findViewById(R.id.tagview_division);
+                tagview_division.removeAllTags();
+                selectionDivision.clear();
+                for (int k = 0; k < divisionItems.length; k++) {
+                    divisionSpinner.mSelection[k] = false;
+                }
+                TagView tagview_addition = (TagView) findViewById(R.id.tagview_addition);
+                tagview_addition.removeAllTags();
+                selectionAddItems.clear();
+                for (int k = 0; k < additionalItems.length; k++) {
+                    additionalSpinner.mSelection[k] = false;
+                }
+                TagView tagview_showFields = (TagView) findViewById(R.id.tagview_showFields);
+                tagview_showFields.removeAllTags();
+                selectionShowFields.clear();
+                for (int k = 0; k < showFieldsItems.length; k++) {
+                    showFieldsSpinner.mSelection[k] = false;
+                }
+            }
+
         });
     }
     @Override
@@ -194,7 +233,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_time.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionTime.clear();
-        selectionTime = new ArrayList<String>(text);
+        selectionTime = new ArrayList<>(text);
 
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
@@ -223,7 +262,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionCountry.clear();
-        selectionCountry = new ArrayList<String>(text);
+        selectionCountry = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionCountry) {
@@ -251,7 +290,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_division.removeAllTags();
         //List<String> selection = new ArrayList<String>(text);
         selectionDivision.clear();
-        selectionDivision = new ArrayList<String>(text);
+        selectionDivision = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionDivision) {
@@ -279,7 +318,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_addition.removeAllTags();
         //List<String> selection = new ArrayList<String>(text);
         selectionAddItems.clear();
-        selectionAddItems = new ArrayList<String>(text);
+        selectionAddItems = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionAddItems) {
@@ -307,7 +346,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_showFields.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionShowFields.clear();
-        selectionShowFields = new ArrayList<String>(text);
+        selectionShowFields = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionShowFields) {
