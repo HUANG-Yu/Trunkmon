@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -223,11 +224,15 @@ public class ViolationsDataActivity extends AppCompatActivity {
             }
             // adding buttons to modify the current record
             record_tail = new TableRow(this);
+            //record_tail.setWeightSum(3);
+
             push_edit = new EditText(this);
             push_edit.setText("5%");
             push_edit.setPadding(0, 0, 0, 0);
             push_edit.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            push_edit.setWidth(30);
+            push_edit.setPadding(10,0,0,10);
 
             push = new BootstrapButton(this);
 
@@ -250,6 +255,14 @@ public class ViolationsDataActivity extends AppCompatActivity {
             pull.setHeight(50);
             pull.setBootstrapSize(DefaultBootstrapSize.SM);
             pull.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+            final int temp = i;
+            push.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("Row number: ",temp+"");
+
+                }
+            });
 
 /*
             pull.setPadding(10, 0, 30, 10);
@@ -263,6 +276,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
             tl.addView(record_tail, new TableLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT));
+
+            //tl.addView(record_tail);
         }
         progressDialog.dismiss();
 

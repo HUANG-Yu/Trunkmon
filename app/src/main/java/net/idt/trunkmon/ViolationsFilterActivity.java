@@ -88,7 +88,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View v) {
 
-                String request;
+                String request = "";
                 //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
@@ -233,7 +233,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_time.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionTime.clear();
-        selectionTime = new ArrayList<>(text);
+        selectionTime = new ArrayList<String>(text);
 
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
@@ -262,7 +262,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionCountry.clear();
-        selectionCountry = new ArrayList<>(text);
+        selectionCountry = new ArrayList<String>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionCountry) {
@@ -290,7 +290,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_division.removeAllTags();
         //List<String> selection = new ArrayList<String>(text);
         selectionDivision.clear();
-        selectionDivision = new ArrayList<>(text);
+        selectionDivision = new ArrayList<String>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionDivision) {
@@ -318,7 +318,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         tagview_addition.removeAllTags();
         //List<String> selection = new ArrayList<String>(text);
         selectionAddItems.clear();
-        selectionAddItems = new ArrayList<>(text);
+        selectionAddItems = new ArrayList<String>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionAddItems) {

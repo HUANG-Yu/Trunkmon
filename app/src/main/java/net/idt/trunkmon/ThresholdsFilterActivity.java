@@ -77,7 +77,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
             public void onClick(View v) {
 
                 String request = "";
-                AWSResponse resp = new AWSResponse();
+                //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
                     JSONObject req = new JSONObject();
@@ -96,14 +96,14 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     request = req.toString();
                     i.putExtra("request", request);
                     //  startActivity(i);
-                    String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
+                   // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
                     // String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
                     // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
 
                     // TextView tv_response = (TextView) findViewById(R.id.tv_response);
                     //tv_response.setText(response);
-                    i.putExtra("response", response);
-                    Log.i("Response", response);
+                    //i.putExtra("response", response);
+                    //Log.i("Response", response);
 
 
                     startActivity(i);
@@ -269,6 +269,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
 
 }
 
+/*
 class AWSResponse extends AsyncTask<String, Void, String> {
 
     private Exception exception;
@@ -299,7 +300,6 @@ class AWSResponse extends AsyncTask<String, Void, String> {
         }
 
     }
+//}
+*/
 
-
-
-}

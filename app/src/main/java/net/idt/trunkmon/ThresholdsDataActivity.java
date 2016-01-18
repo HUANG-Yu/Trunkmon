@@ -1,7 +1,9 @@
 package net.idt.trunkmon;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,9 +22,14 @@ import android.util.Log;
 import android.graphics.Color;
 import android.widget.TableRow.LayoutParams;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
@@ -39,7 +46,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     TableRow record_header, record_tail;
     TextView head_info;
     Button edit;
-
+    private GoogleApiClient client;
     String[] columns = {"Location", "Division", "Tod", "Auto CCR", "Auto ALOC",
         "Auto Attempts", "Auto Memo", "Rev CCR", "Rev ALOC", "Rev Attempts",
         "Rev Memo"};
@@ -70,17 +77,21 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thresholds_data);
+         /* setContentView(R.layout.activity_violations_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tl = (TableLayout) findViewById(R.id.thresholds_table);
+        tl = (TableLayout) findViewById(R.id.violations_table);
+        */
         try {
             recreate_json();
-            showResult();
+            //  generateColumns();
+            // showResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         /*
         Button edit = (Button)findViewById(R.id.edit);
         edit.setOnClickListener(new View.OnClickListener() {
@@ -114,14 +125,16 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     }
 
     public void recreate_json() throws JSONException {
+        AWSResponse resp = new AWSResponse();
         Intent intent = getIntent();
         request = new JSONObject(intent.getExtras().getString("request"));
         Log.i("request", intent.getExtras().getString("request"));
-        response = new JSONObject(intent.getExtras().getString("response"));
-        Log.i("response", intent.getExtras().getString("response"));
+        //response = new JSONObject(intent.getExtras().getString("response"));
+        //Log.i("response", intent.getExtras().getString("response"));
+        resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations");
     }
 
-    public void showResult() throws JSONException {
+    public void showResult(ProgressDialog progressDialog) throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
             JSONObject cur = receivedArray.getJSONObject(i);
@@ -201,7 +214,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
 
 
         }
-
+        progressDialog.dismiss();
     }
 
     @Override
@@ -238,4 +251,69 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    class AWSResponse extends AsyncTask<String, Void, String> {
+
+        private Exception exception;
+        ProgressDialog progressDialog;
+        String res;
+        protected String doInBackground(String... urls) {
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                StringBuilder sb = new StringBuilder();
+
+                InputStreamReader is = new InputStreamReader(connection.getInputStream());
+
+                reader = new BufferedReader(is);
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+                res = sb.toString();
+                return res;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(ThresholdsDataActivity.this,"Loading...",
+                    "Loading application View, please wait...", false, false);
+
+        }
+
+        protected void onPostExecute(String response1) {
+            setContentView(R.layout.activity_violations_data);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            try {
+                response = new JSONObject(response1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("response", res);
+            tl = (TableLayout) findViewById(R.id.violations_table);
+            try {
+                //recreate_json();
+                //generateColumns();
+                showResult(progressDialog);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // ATTENTION: This was auto-generated to implement the App Indexing API.
+            // See https://g.co/AppIndexing/AndroidStudio for more information.
+            // progressDialog.dismiss();
+            //initialize the View
+
+            client = new GoogleApiClient.Builder(ThresholdsDataActivity.this).addApi(AppIndex.API).build();
+
+        }
+    }
 }
