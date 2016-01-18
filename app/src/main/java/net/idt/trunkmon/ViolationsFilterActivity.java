@@ -335,7 +335,9 @@ class AWSResponse extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         BufferedReader reader = null;
         try {
-            URL url = new URL("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/First/thresholds");
+
+            URL url = new URL(urls[0]);
+            Log.i("URL",urls[0]);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             StringBuilder sb = new StringBuilder();
