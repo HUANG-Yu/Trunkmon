@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,8 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     Intent i = new Intent(getApplicationContext(),ThresholdsDataActivity.class);
                     request = req.toString();
                     i.putExtra("request", request);
+                    //  startActivity(i);
+                   String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
                    String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
 
                     i.putExtra("response", response);
