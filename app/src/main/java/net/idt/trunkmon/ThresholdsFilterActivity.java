@@ -194,8 +194,6 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
     @Override
     public void responseCountry(ArrayList<String> text) {
         TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
-    public void responsestartCountry(ArrayList<String> text) {
-        TagView tagview_country = (TagView)findViewById(R.id.tagview_startCountry);
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionCountry.clear();
