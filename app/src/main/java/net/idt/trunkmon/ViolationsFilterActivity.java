@@ -1,15 +1,12 @@
 package net.idt.trunkmon;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
@@ -21,15 +18,14 @@ import util.MultiSelectionSpinner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import database.DBHandler;
+
 import java.lang.String;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
+
 
 public class ViolationsFilterActivity extends AppCompatActivity implements Communicator {
     private MultiSelectionSpinner startCountrySpinner;
@@ -49,6 +45,8 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     List<String> selectionAddItems = new ArrayList<>();
     List<String> selectionShowFields = new ArrayList<>();
 
+    DBHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        dbHandler = new DBHandler(this, null, null, 1);
 
         getTimeItems();
         getCountryItems();
@@ -64,6 +62,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         timeDropdown = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
         timeDropdown.spinner_title = "Time";
         timeDropdown.setItems(timeItems);
+        responseTime(dbHandler.getPreTime());
 
         startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
@@ -82,11 +81,13 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         showFieldsSpinner.spinner_title = "Showfields";
         showFieldsSpinner.setItems(showFieldsItems);
 
-        BootstrapButton btn_apply = (BootstrapButton)findViewById(R.id.vApplyButton);
+        BootstrapButton btn_apply = (BootstrapButton) findViewById(R.id.vApplyButton);
         btn_apply.setRounded(true);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                dbHandler.addVioFilterTime(selectionTime);
 
                 String request = "";
                 //AWSResponse resp = new AWSResponse();
@@ -117,6 +118,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                     //tv_response.setText(response);
                     //i.putExtra("response", response);
                     //Log.i("Response",response);
+
                     startActivity(i);
 
                 } catch (Exception e) {
@@ -125,7 +127,16 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             }
         });
 
-        BootstrapButton btn_reset = (BootstrapButton)findViewById(R.id.vResetButton);
+        BootstrapButton btn_pre = (BootstrapButton) findViewById(R.id.vPreFilterButton);
+        btn_pre.setRounded(true);
+        btn_pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                responseTime(dbHandler.getPreTime());
+            }
+        });
+
+        BootstrapButton btn_reset = (BootstrapButton) findViewById(R.id.vResetButton);
         btn_reset.setRounded(true);
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +175,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -248,6 +260,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                 for (int k = 0; k < timeItems.length; k++) {
                     if (timeItems[k].contains(tag.text.toString())) {
                         timeDropdown.mSelection[k] = false;
+                        selectionTime.remove(timeItems[k]);
                     }
                 }
 
