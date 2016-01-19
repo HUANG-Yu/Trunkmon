@@ -13,7 +13,7 @@ public class MyApplication extends Application {
         return userRole;
     }
 
-    public void setUserRole(String someVariable) {
-        this.userRole = someVariable;
+    public void setUserRole(String role) {
+        this.userRole = role;
     }
 }
