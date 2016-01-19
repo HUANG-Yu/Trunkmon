@@ -2,6 +2,7 @@ package net.idt.trunkmon;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,9 @@ import android.widget.EditText;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapSize;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +31,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ThresholdsEditActivity extends AppCompatActivity {
-
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
@@ -43,7 +46,12 @@ public class ThresholdsEditActivity extends AppCompatActivity {
     String[] columns = {"Location", "Division", "Tod", "Auto CCR", "Auto ALOC",
             "Auto Attempts", "Auto Memo", "Rev CCR", "Rev ALOC", "Rev Attempts",
             "Rev Memo"};
-    Set<String> fixFields = new HashSet<String>();
+    Set<String> fixFields = new HashSet<>();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +68,12 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void recreate_json () throws JSONException {
+    public void recreate_json() throws JSONException {
         Intent intent = getIntent();
         response = new JSONObject(intent.getExtras().getString("response"));
         copy = new JSONObject(intent.getExtras().getString("response"));
@@ -72,7 +83,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
 
     public void showRecord() throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
-        JSONObject cur = receivedArray.getJSONObject(index);
+        final JSONObject cur = receivedArray.getJSONObject(index);
         Log.i("current record", cur.toString());
         //setting editable fields in editable set
         fixFields.add("Location");
@@ -115,8 +126,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
                         TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                 column_value.setPadding(5, 5, 5, 5);
                 tr.addView(column_value);
-            }
-            else {
+            } else {
                 // add an edit view as second column in that row
                 edit = new EditText(this);
                 edit.setText(cur.get(columns[i]).toString());
@@ -124,6 +134,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
                 edit.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                 edit.setPadding(5, 5, 5, 5);
+                edit.setId(i);
                 tr.addView(edit);
 
             }
@@ -145,10 +156,16 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
-                intent.putExtra("response", response.toString());
-                intent.putExtra("prevActivity", "ThresholdsEditActivity");
-                startActivity(intent);
+                for (int i = 0; i < columns.length; i++) {
+                    if (!fixFields.contains(columns[i])) {
+                        EditText init = (EditText)findViewById(i);
+                        try {
+                            init.setText(cur.get(columns[i]).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         });
         reset.setPadding(0, 0, 0, 0);
@@ -163,6 +180,20 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                JSONObject local = cur;
+                // record all the changes in the table
+                for (int i = 0; i < columns.length; i++) {
+                    if (!fixFields.contains(columns[i])) {
+                        EditText bind = (EditText)findViewById(i);
+                        try {
+                            cur.put(columns[i], bind.getText().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Log.i("testing", bind.getText().toString());
+
+                    }
+                }
                 Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                 intent.putExtra("response", response.toString());
                 intent.putExtra("prevActivity", "ThresholdsEditActivity");
@@ -210,4 +241,43 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ThresholdsEdit Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://net.idt.trunkmon/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ThresholdsEdit Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://net.idt.trunkmon/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }
