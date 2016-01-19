@@ -132,7 +132,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                     startActivity(i);
 
                 } catch (Exception e) {
-
+                    System.out.println("JSON failed.");
                 }
             }
         });
@@ -257,7 +257,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         TagView tagview_time = (TagView) findViewById(R.id.tagview_time);
         tagview_time.removeAllTags();
         selectionTime.clear();
-        selectionTime = new ArrayList<String>(text);
+        selectionTime = new ArrayList<>(text);
 
         for (String s : selectionTime) {
             Tag tag = new Tag(s);
@@ -268,7 +268,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < timeItems.length; k++) {
-                    if (timeItems[k].contains(tag.text.toString())) {
+                    if (timeItems[k].contains(tag.text)) {
                         timeDropdown.mSelection[k] = false;
                         selectionTime.remove(timeItems[k]);
                     }
@@ -283,7 +283,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
         tagview_country.removeAllTags();
         selectionCountry.clear();
-        selectionCountry = new ArrayList<String>(text);
+        selectionCountry = new ArrayList<>(text);
         for (String s : selectionCountry) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -293,7 +293,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < startCountryItems.length; k++) {
-                    if (startCountryItems[k].contains(tag.text.toString())) {
+                    if (startCountryItems[k].contains(tag.text)) {
                         startCountrySpinner.mSelection[k] = false;
                         selectionCountry.remove(startCountryItems[k]);
                     }
@@ -309,7 +309,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         TagView tagview_division = (TagView) findViewById(R.id.tagview_division);
         tagview_division.removeAllTags();
         selectionDivision.clear();
-        selectionDivision = new ArrayList<String>(text);
+        selectionDivision = new ArrayList<>(text);
         for (String s : selectionDivision) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -319,7 +319,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < divisionItems.length; k++) {
-                    if (divisionItems[k].contains(tag.text.toString())) {
+                    if (divisionItems[k].contains(tag.text)) {
                         divisionSpinner.mSelection[k] = false;
                         selectionDivision.remove(divisionItems[k]);
                     }
@@ -335,7 +335,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         TagView tagview_addition = (TagView) findViewById(R.id.tagview_addition);
         tagview_addition.removeAllTags();
         selectionAddItems.clear();
-        selectionAddItems = new ArrayList<String>(text);
+        selectionAddItems = new ArrayList<>(text);
         for (String s : selectionAddItems) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -345,7 +345,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < additionalItems.length; k++) {
-                    if (additionalItems[k].contains(tag.text.toString())) {
+                    if (additionalItems[k].contains(tag.text)) {
                         additionalSpinner.mSelection[k] = false;
                         selectionAddItems.remove(additionalItems[k]);
                     }
@@ -371,7 +371,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < showFieldsItems.length; k++) {
-                    if (showFieldsItems[k].contains(tag.text.toString())) {
+                    if (showFieldsItems[k].contains(tag.text)) {
                         showFieldsSpinner.mSelection[k] = false;
                         selectionShowFields.remove(showFieldsItems[k]);
                     }

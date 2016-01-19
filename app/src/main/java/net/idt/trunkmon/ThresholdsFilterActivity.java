@@ -1,38 +1,24 @@
 package net.idt.trunkmon;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.util.Log;
-import android.widget.TableLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.kaede.tagview.OnTagDeleteListener;
 import me.kaede.tagview.Tag;
 import me.kaede.tagview.TagView;
-import util.MultiSelectionSpinner;
 import util.MultiSelectionSpinner_thresholds;
 
 
@@ -45,9 +31,9 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
     String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     String[] divisionItems = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
 
-    List<String> selectionStartCountry = new ArrayList<String>();
-    List<String> selectionCountry = new ArrayList<String>();
-    List<String> selectionDivision = new ArrayList<String>();
+    List<String> selectionStartCountry = new ArrayList<>();
+    List<String> selectionCountry = new ArrayList<>();
+    List<String> selectionDivision = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +62,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View v) {
 
-                String request = "";
+                String request;
                 //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
@@ -109,7 +95,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     startActivity(i);
 
                 } catch (Exception e) {
-
+                    System.out.println("JSON failed.");
                 }
             }
         });
@@ -153,7 +139,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionStartCountry.clear();
-        selectionStartCountry = new ArrayList<String>(text);
+        selectionStartCountry = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for(String s:selectionStartCountry)
@@ -167,7 +153,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
             public void onTagDeleted(Tag tag, int i) {
                 for(int k=0;k<countryItems.length;k++)
                 {
-                    if(startCountryItems[k].contains(tag.text.toString()))
+                    if(startCountryItems[k].contains(tag.text))
                     {
                         startCountrySpinner.mSelection[k] = false;
                     }
@@ -184,7 +170,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);
         selectionCountry.clear();
-        selectionCountry = new ArrayList<String>(text);
+        selectionCountry = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for(String s:selectionCountry)
@@ -196,10 +182,8 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         tagview_country.setOnTagDeleteListener(new OnTagDeleteListener() {
             @Override
             public void onTagDeleted(Tag tag, int i) {
-                for(int k=0;k<countryItems.length;k++)
-                {
-                    if(countryItems[k].contains(tag.text.toString()))
-                    {
+                for (int k = 0; k < countryItems.length; k++) {
+                    if (countryItems[k].contains(tag.text)) {
                         countrySpinner.mSelection[k] = false;
                     }
                 }
@@ -214,7 +198,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         tagview_division.removeAllTags();
         //List<String> selection = new ArrayList<String>(text);
         selectionDivision.clear();
-        selectionDivision = new ArrayList<String>(text);
+        selectionDivision = new ArrayList<>(text);
         //selection.add("check1");
         //List<String> selection = startCountrySpinner.getSelectedStrings();
         for(String s:selectionDivision)
@@ -227,7 +211,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < divisionItems.length; k++) {
-                    if (divisionItems[k].contains(tag.text.toString())) {
+                    if (divisionItems[k].contains(tag.text)) {
                         divisionSpinner.mSelection[k] = false;
                     }
                 }
