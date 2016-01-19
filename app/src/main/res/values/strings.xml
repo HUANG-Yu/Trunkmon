@@ -11,4 +11,5 @@
     <string name="title_activity_thresholds_filter">ThresholdsFilterActivity</string>
     <string name="title_activity_thresholds_data">ThresholdsDataActivity</string>
     <string name="title_activity_splashscreen">splashscreen</string>
+    <string name="title_activity_threshold_edit">ThresholdEditActivity</string>
 </resources>
