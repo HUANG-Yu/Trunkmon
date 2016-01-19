@@ -92,51 +92,33 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        /*
-        Button edit = (Button)findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                AlertDialog.Builder popup = new AlertDialog.Builder(ThresholdsDataActivity.this);
-                popup.setTitle("Edit");
-                popup.setMessage("Edit Fields");
-
-                popup.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
-                                Intent myIntent1 = new Intent(view.getContext(), LoginActivity.class);
-                            }
-                        });
-
-                popup.setNegativeButton("Reset",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                dialog.cancel();
-                            }
-                        });
-                popup.show();
-            }
-        });
-        */
-
     }
 
     public void recreate_json() throws JSONException {
-        AWSResponse resp = new AWSResponse();
         Intent intent = getIntent();
-        request = new JSONObject(intent.getExtras().getString("request"));
-        Log.i("request", intent.getExtras().getString("request"));
-        //response = new JSONObject(intent.getExtras().getString("response"));
-        //Log.i("response", intent.getExtras().getString("response"));
-        resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations");
+        if (intent.getExtras().get("prevActivity").equals("ThresholdsEditActivity")) {
+            response = new JSONObject(intent.getExtras().getString("response"));
+            setContentView(R.layout.activity_thresholds_data);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            tl = (TableLayout) findViewById(R.id.thresholds_table);
+            Log.i("response from edit", intent.getExtras().getString("response"));
+            showResult();
+        }
+        else {
+            AWSResponse resp = new AWSResponse();
+            request = new JSONObject(intent.getExtras().getString("request"));
+            Log.i("request", intent.getExtras().getString("request"));
+            //response = new JSONObject(intent.getExtras().getString("response"));
+            //Log.i("response", intent.getExtras().getString("response"));
+            resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations");
+        }
     }
 
-    public void showResult(ProgressDialog progressDialog) throws JSONException {
+    public void showResult() throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
+            final int index = i;
             JSONObject cur = receivedArray.getJSONObject(i);
             LegendFlag flags = legendHighlighterLogic(cur);
             // adding header to each json object
@@ -200,8 +182,108 @@ public class ThresholdsDataActivity extends AppCompatActivity {
             record_tail = new TableRow(this);
             edit = new Button(this);
             edit.setText("Edit");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    Intent intent = new Intent(getApplicationContext(), ThresholdsEditActivity.class);
+                    intent.putExtra("response", response.toString());
+                    intent.putExtra("index", Integer.toString(index));
+                    startActivity(intent);
+                }
+            });
             edit.setVisibility(View.VISIBLE);
+            edit.setPadding(0, 0, 0, 0);
+            edit.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
+            record_tail.addView(edit);
+
+            tl.addView(record_tail, new TableLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT));
+
+
+        }
+
+    }
+
+    public void showResult(ProgressDialog progressDialog) throws JSONException {
+        JSONArray receivedArray = (JSONArray) response.get("records");
+        for (int i = 0; i < receivedArray.length(); i++) {
+            final int index = i;
+            JSONObject cur = receivedArray.getJSONObject(i);
+            LegendFlag flags = legendHighlighterLogic(cur);
+            // adding header to each json object
+            record_header = new TableRow(this);
+
+            head_info = new TextView(this);
+            head_info.setText("record " + (i + 1) + " of " + receivedArray.length());
+            head_info.setTextColor(Color.BLUE);
+            head_info.setLayoutParams(new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            head_info.setPadding(5, 5, 5, 5);
+            record_header.addView(head_info);
+
+            tl.addView(record_header, new TableLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT));
+
+            for (int j = 0; j < columns.length; j++) {
+                tr = new TableRow(this);
+                tr.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
+                // column name in the first column
+                column_name = new TextView(this);
+                column_name.setText(columns[j]);
+                column_name.setTextColor(Color.BLACK);
+                column_name.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                column_name.setPadding(5, 5, 5, 5);
+                tr.addView(column_name);
+                // column value in the second column
+                column_value = new TextView(this);
+                column_value.setText(cur.get(columns[j]).toString());
+                column_value.setTextColor(Color.BLACK);
+                // manipulate the representation of color highlighter in data table
+                if (legendSet.contains(columns[j])) {
+                    switch(columns[j]) {
+                        case "Auto CCR":
+                            if (flags.CCR) {
+                                column_value.setBackgroundColor(Color.LTGRAY);
+                            }
+                            break;
+                        case "Auto ALOC":
+                            if (flags.ALOC) {
+                                column_value.setBackgroundColor(Color.DKGRAY);
+                            }
+                            break;
+                        // add more if needed
+                    }
+                }
+                column_value.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                column_value.setPadding(5, 5, 5, 5);
+                tr.addView(column_value);
+
+                tl.addView(tr, new TableLayout.LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
+            }
+            // adding buttons to modify the current record
+            record_tail = new TableRow(this);
+            edit = new Button(this);
+            edit.setText("Edit");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    Intent intent = new Intent(getApplicationContext(), ThresholdsEditActivity.class);
+                    intent.putExtra("response", response.toString());
+                    intent.putExtra("index", Integer.toString(index));
+                    startActivity(intent);
+                }
+            });
+            edit.setVisibility(View.VISIBLE);
             edit.setPadding(0, 0, 0, 0);
             edit.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -290,7 +372,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response1) {
-            setContentView(R.layout.activity_violations_data);
+            setContentView(R.layout.activity_thresholds_data);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             try {
@@ -299,7 +381,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             Log.i("response", res);
-            tl = (TableLayout) findViewById(R.id.violations_table);
+            tl = (TableLayout) findViewById(R.id.thresholds_table);
             try {
                 //recreate_json();
                 //generateColumns();
