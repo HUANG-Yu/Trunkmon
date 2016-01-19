@@ -59,8 +59,6 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
         countrySpinner.spinner_title = "Country";
         countrySpinner.setItems(countryItems);
 
-
-
         startCountrySpinner = (MultiSelectionSpinner_thresholds) findViewById(R.id.thStartCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
         startCountrySpinner.setItems(startCountryItems);
@@ -95,6 +93,7 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
                     Intent i = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                     request = req.toString();
                     i.putExtra("request", request);
+                    i.putExtra("prevActivity", "ThresholdsFilterActivity");
                     //  startActivity(i);
                    // String response = resp.execute("https://l7o8agu92l.execute-api.us-east-1.amazonaws.com/violations/violations").get();
                     // String response = resp.execute("https://rbf5ou43pa.execute-api.us-east-1.amazonaws.com/dev/thresholds").get();
@@ -147,8 +146,6 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
 
     @Override
     public void responsestartCountry(ArrayList<String> text) {
-
-
         TagView tagview_country = (TagView)findViewById(R.id.tagview_startCountry);
         tagview_country.removeAllTags();
         // List<String> selection = new ArrayList<String>(text);

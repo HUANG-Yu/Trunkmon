@@ -147,6 +147,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                 intent.putExtra("response", response.toString());
+                intent.putExtra("prevActivity", "ThresholdsEditActivity");
                 startActivity(intent);
             }
         });
@@ -164,6 +165,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
                 intent.putExtra("response", response.toString());
+                intent.putExtra("prevActivity", "ThresholdsEditActivity");
                 startActivity(intent);
             }
         });
