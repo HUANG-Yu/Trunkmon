@@ -27,8 +27,45 @@ public class ThresholdsFilterActivity extends AppCompatActivity implements Commu
     private MultiSelectionSpinner_thresholds startCountrySpinner;
     private MultiSelectionSpinner_thresholds divisionSpinner;
 
-    String[] countryItems = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola"};
-    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    String[] countryItems = {"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra",
+            "Angola", "Anguilla", "Antarctica", "Antigua", "Argentina", "Armenia", "Aruba",
+            "Ascension Island", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
+            "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan",
+            "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Virgin Islands",
+            "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada",
+            "Cape Verde Islands", "Cayman Islands", "Central African Republic", "Chad", "Chile",
+            "China", "Colombia", "Comoros-Mayotte", "Congo", "Cook Islands", "Costa Rica", "Croatia",
+            "Cuba", "Cyprus", "Czech Republic", "Dem Rep Congo (Zaire)", "Denmark", "Diego Garcia",
+            "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt",
+            "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Faeroe Islands",
+            "Falkland Islands", "Fiji Islands", "Finland", "France", "French Guiana",
+            "French Polynesia", "Gabon Republic", "Gambia", "Georgia", "Germany", "Ghana",
+            "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala",
+            "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary",
+            "Iceland", "India", "Indonesia", "Inmarsat", "Iran", "Iraq", "Ireland", "Iridium",
+            "Israel", "Italy", "Ivory Coast", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya",
+            "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia",
+            "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar",
+            "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
+            "Martinique (French Antilles)", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+            "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique",
+            "Myanmar Burma", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles",
+            "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue",
+            "No. Mariana Islands", "North Korea", "Norway", "Oman", "Pakistan", "Palau",
+            "Palestinian Authority", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines",
+            "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion Island", "Romania", "Russia",
+            "Rwanda", "San Marino", "Sao Tome", "Saudi Arabia", "Senegal", "Serbia",
+            "Seychelles Islands", "Sierra Leone", "Singapore", "Slovakia", "Slovenia",
+            "Solomon Islands", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka",
+            "St. Helena", "St. Kitts", "St. Lucia", "St. Pierre And Miquelon", "St. Vincent",
+            "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan",
+            "Tajikistan", "Tanzania", "Thailand", "Thuraya Satellite", "Togo", "Tokelau",
+            "Tonga Islands", "Trinidad", "Tunisia", "Turkey", "Turkmenistan", "Turks Caicos Islands",
+            "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "Uruguay",
+            "Usa", "Uzbekistan", "Vanuatu Republic", "Venezuela", "Vietnam", "Virgin Islands (U.S.)",
+            "Wallis Futuna Islands", "Western Samoa", "Yemen", "Zambia", "Zimbabwe"};
+    String[] startCountryItems = {"A", "B", "C", "D", "E", "F", "G","H","I","J","K","L","M","N","O",
+            "P","Q","R","S","T","U","V","W","X","Y","Z"};
     String[] divisionItems = {"Gold", "USDebit", "UKDebit", "Carriers", "Silver"};
 
     List<String> selectionStartCountry = new ArrayList<>();
