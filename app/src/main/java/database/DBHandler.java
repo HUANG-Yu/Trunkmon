@@ -12,36 +12,66 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
     private static final String DATABSE_NAME = "trunkmon.db";
+
     public static final String TABLE_VIOFILTERTIME = "vioFilterTime";
     public static final String COLUMN_TIME = "time";
+
+    public static final String TABLE_VIOFILTERSTARTCOUNTRY = "vioFilterStartCountry";
+    public static final String COLUMN_START_COUNTRY = "startcountry";
+
+    public static final String TABLE_VIOFILTERDIVISION = "vioFilterDivision";
+    public static final String COLUMN_DIVISION = "division";
+
+    public static final String TABLE_VIOFILTERADD = "vioFilterAdd";
+    public static final String COLUMN_ADD = "additional";
+
+    public static final String TABLE_VIOFILTERSHOW = "vioFilterShow";
+    public static final String COLUMN_SHOW = "showfields";
 
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABSE_NAME, factory, DATABASE_VERSION);
-        System.out.println("db handler constructor");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.out.println("onCreate");
         String query = "CREATE TABLE " + TABLE_VIOFILTERTIME + "(" +
                 COLUMN_TIME + " text " +
                 ");";
-        System.out.println(query);
         db.execSQL(query);
 
+        query = "CREATE TABLE " + TABLE_VIOFILTERSTARTCOUNTRY + "(" +
+                COLUMN_START_COUNTRY + " text " +
+                ");";
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_VIOFILTERDIVISION + "(" +
+                COLUMN_DIVISION + " text " +
+                ");";
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_VIOFILTERADD + "(" +
+                COLUMN_ADD + " text " +
+                ");";
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_VIOFILTERSHOW + "(" +
+                COLUMN_SHOW + " text " +
+                ");";
+        db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        System.out.println("onUpgrade");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIOFILTERTIME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIOFILTERSTARTCOUNTRY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIOFILTERDIVISION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIOFILTERADD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIOFILTERSHOW);
         onCreate(db);
     }
 
     public void addVioFilterTime(List<String> time){
-        System.out.println("addVioFilterTime");
-        System.out.println(time.size());
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_VIOFILTERTIME);
         for(int i=0;i<time.size();i++) {
@@ -53,28 +83,12 @@ public class DBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void deleteVioFilterTime(String time){
-        System.out.println("deleteVioFilterTime");
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_VIOFILTERTIME + " WHERE " + COLUMN_TIME + "=\"" + time + "\";");
-    }
-
     public ArrayList<String> getPreTime(){
         ArrayList<String> list = new ArrayList<>();
-//        String query = "SELECT * FROM "+TABLE_VIOFILTERTIME;
-//        SQLiteDatabase db = getWritableDatabase();
-//        Cursor c = db.rawQuery(query, null);
-//
-//        if(c.moveToFirst()){
-//            do {
-//                list.add(c.getString(0));
-//            }while(c.moveToNext());
-//        }
-//        db.close();
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+TABLE_VIOFILTERTIME;
 
-        Cursor c = db.rawQuery(query,null);
+        Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while(!c.isAfterLast()){
@@ -87,25 +101,119 @@ public class DBHandler extends SQLiteOpenHelper{
         return list;
     }
 
-    public String databaseToString(){
-        System.out.println("databaseToString");
-        String dbString = "";
+    public void addVioFilterStartCountry(List<String> startCountries){
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM "+TABLE_VIOFILTERTIME;
-
-        Cursor c = db.rawQuery(query,null);
-        if(c.getString(c.getColumnIndex("time"))!= null){
-
+        db.execSQL("DELETE FROM " + TABLE_VIOFILTERSTARTCOUNTRY);
+        for(int i=0;i<startCountries.size();i++) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_START_COUNTRY, startCountries.get(i));
+            db.insert(TABLE_VIOFILTERSTARTCOUNTRY, null, values);
         }
+        db.close();
+    }
+
+    public ArrayList<String> getPreStartCountry(){
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_VIOFILTERSTARTCOUNTRY;
+
+        Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
 
         while(!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex("time"))!= null){
-                dbString += c.getString(c.getColumnIndex("time"));
-                dbString += "\n";
+            if(c.getString(c.getColumnIndex("startcountry"))!= null){
+                list.add(c.getString(c.getColumnIndex("startcountry")));
             }
+            c.moveToNext();
         }
         db.close();
-        return dbString;
+        return list;
+    }
+
+    public void addVioFilterDivision(List<String> divisions){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_VIOFILTERDIVISION);
+        for(int i=0;i<divisions.size();i++) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_DIVISION, divisions.get(i));
+            db.insert(TABLE_VIOFILTERDIVISION, null, values);
+        }
+        db.close();
+    }
+
+    public ArrayList<String> getPreDivision(){
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_VIOFILTERDIVISION;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("division"))!= null){
+                list.add(c.getString(c.getColumnIndex("division")));
+            }
+            c.moveToNext();
+        }
+        db.close();
+        return list;
+    }
+
+    public void addVioFilterAdd(List<String> addItems){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_VIOFILTERADD);
+        for(int i=0;i<addItems.size();i++) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ADD, addItems.get(i));
+            db.insert(TABLE_VIOFILTERADD, null, values);
+        }
+        db.close();
+    }
+
+    public ArrayList<String> getPreAdditional(){
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_VIOFILTERADD;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("additional"))!= null){
+                list.add(c.getString(c.getColumnIndex("additional")));
+            }
+            c.moveToNext();
+        }
+        db.close();
+        return list;
+    }
+
+    public void addVioFilterShowFileds(List<String> showFields){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_VIOFILTERSHOW);
+        for(int i=0;i<showFields.size();i++) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_SHOW, showFields.get(i));
+            db.insert(TABLE_VIOFILTERSHOW, null, values);
+        }
+        db.close();
+    }
+
+    public ArrayList<String> getPreShowFields(){
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_VIOFILTERSHOW;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+            if(c.getString(c.getColumnIndex("showfields"))!= null){
+                list.add(c.getString(c.getColumnIndex("showfields")));
+            }
+            c.moveToNext();
+        }
+        db.close();
+        return list;
     }
 }
