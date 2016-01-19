@@ -6,14 +6,18 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -405,7 +409,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
         protected void onPostExecute(String response1) {
             setContentView(R.layout.activity_violations_data);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            final AppBarLayout appbar = (AppBarLayout)findViewById(R.id.appBar);
             setSupportActionBar(toolbar);
             try {
                 response = new JSONObject(response1);
@@ -425,7 +430,31 @@ public class ViolationsDataActivity extends AppCompatActivity {
             // See https://g.co/AppIndexing/AndroidStudio for more information.
            // progressDialog.dismiss();
             //initialize the View
+         /*   ScrollView scrollView =(ScrollView)findViewById(R.id.scroll);
+            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            CoordinatorLayout topLayout = (CoordinatorLayout)findViewById(R.id.topLayout);
+                @Override
+                public void onScrollChanged() {
+                    if(appbar.getVisibility()==View.VISIBLE) {
+                        appbar.setVisibility(View.INVISIBLE);
+                        toolbar.setVisibility(View.INVISIBLE);
+                        appbar.removeAllViews();
+                    }
+                    else{
+                        if(appbar.getVisibility()==View.INVISIBLE)
+                        {
+                            appbar.setVisibility(View.VISIBLE);
+                            toolbar.setVisibility(View.VISIBLE);
+                            appbar.addView(toolbar,0);
+                            //topLayout.addView(appbar,0);
+                        }
+                    }
 
+                    //DO SOMETHING WITH THE SCROLL COORDINATES
+
+                }
+            });
+           */
             client = new GoogleApiClient.Builder(ViolationsDataActivity.this).addApi(AppIndex.API).build();
 
         }
