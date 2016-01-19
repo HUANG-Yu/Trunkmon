@@ -77,7 +77,7 @@ public class MultiSelectionSpinner_thresholds extends Spinner implements
                 if(spinner_title.equals("Start Country"))
                 {
                     Communicator1 c = (Communicator1)getContext();
-                    c.responsestartCountry(selected_items);
+                    c.responseStartCountry(selected_items);
                 }
                 if(spinner_title.equals("Country"))
                 {

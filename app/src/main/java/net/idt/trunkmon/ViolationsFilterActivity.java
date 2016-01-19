@@ -18,7 +18,7 @@ import util.MultiSelectionSpinner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import database.DBHandler;
+import database.VioDBHandler;
 
 import java.lang.String;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     List<String> selectionAddItems = new ArrayList<>();
     List<String> selectionShowFields = new ArrayList<>();
 
-    DBHandler dbHandler;
+    VioDBHandler vioDbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,8 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        dbHandler = new DBHandler(this, null, null, 1);
+        //Create database handler here
+        vioDbHandler = new VioDBHandler(this, null, null, 1);
 
         getTimeItems();
         getCountryItems();
@@ -62,24 +63,29 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         timeDropdown = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
         timeDropdown.spinner_title = "Time";
         timeDropdown.setItems(timeItems);
-        responseTime(dbHandler.getPreTime());
+        responseTime(vioDbHandler.getPreTime());
 
         startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
         startCountrySpinner.setItems(startCountryItems);
+        responseCountry(vioDbHandler.getPreStartCountry());
+
 
         divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
         divisionSpinner.spinner_title = "Division";
         divisionSpinner.setItems(divisionItems);
+        responseDivision(vioDbHandler.getPreDivision());
 
         additionalSpinner = (MultiSelectionSpinner) findViewById(R.id.additionalSpinner);
         additionalSpinner.spinner_title = "Additional items";
         additionalSpinner.setItems(additionalItems);
+        responseAddItems(vioDbHandler.getPreAdditional());
 
 
         showFieldsSpinner = (MultiSelectionSpinner) findViewById(R.id.showFieldsSpinner);
         showFieldsSpinner.spinner_title = "Showfields";
         showFieldsSpinner.setItems(showFieldsItems);
+        responseShowFields(vioDbHandler.getPreShowFields());
 
         BootstrapButton btn_apply = (BootstrapButton) findViewById(R.id.vApplyButton);
         btn_apply.setRounded(true);
@@ -87,9 +93,13 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View v) {
 
-                dbHandler.addVioFilterTime(selectionTime);
+                vioDbHandler.addTime(selectionTime);
+                vioDbHandler.addStartCountry(selectionCountry);
+                vioDbHandler.addDivision(selectionDivision);
+                vioDbHandler.addAdditional(selectionAddItems);
+                vioDbHandler.addShowFileds(selectionShowFields);
 
-                String request = "";
+                String request;
                 //AWSResponse resp = new AWSResponse();
                 // Log.i("AWS RESPONSE", resp.e)
                 try {
@@ -122,7 +132,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
                     startActivity(i);
 
                 } catch (Exception e) {
-
+                    System.out.println("JSON failed.");
                 }
             }
         });
@@ -132,7 +142,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         btn_pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                responseTime(dbHandler.getPreTime());
+                responseTime(vioDbHandler.getPreTime());
+                responseCountry(vioDbHandler.getPreStartCountry());
+                responseCountry(vioDbHandler.getPreDivision());
+                responseAddItems(vioDbHandler.getPreAdditional());
+                responseShowFields(vioDbHandler.getPreShowFields());
             }
         });
 
@@ -240,15 +254,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
     @Override
     public void responseTime(ArrayList<String> text) {
-
         TagView tagview_time = (TagView) findViewById(R.id.tagview_time);
         tagview_time.removeAllTags();
-        // List<String> selection = new ArrayList<String>(text);
         selectionTime.clear();
-        selectionTime = new ArrayList<String>(text);
+        selectionTime = new ArrayList<>(text);
 
-        //selection.add("check1");
-        //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionTime) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -258,7 +268,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < timeItems.length; k++) {
-                    if (timeItems[k].contains(tag.text.toString())) {
+                    if (timeItems[k].contains(tag.text)) {
                         timeDropdown.mSelection[k] = false;
                         selectionTime.remove(timeItems[k]);
                     }
@@ -270,14 +280,10 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
     @Override
     public void responseCountry(ArrayList<String> text) {
-
         TagView tagview_country = (TagView) findViewById(R.id.tagview_country);
         tagview_country.removeAllTags();
-        // List<String> selection = new ArrayList<String>(text);
         selectionCountry.clear();
-        selectionCountry = new ArrayList<String>(text);
-        //selection.add("check1");
-        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        selectionCountry = new ArrayList<>(text);
         for (String s : selectionCountry) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -287,8 +293,9 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < startCountryItems.length; k++) {
-                    if (startCountryItems[k].contains(tag.text.toString())) {
+                    if (startCountryItems[k].contains(tag.text)) {
                         startCountrySpinner.mSelection[k] = false;
+                        selectionCountry.remove(startCountryItems[k]);
                     }
                 }
 
@@ -301,11 +308,8 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_division = (TagView) findViewById(R.id.tagview_division);
         tagview_division.removeAllTags();
-        //List<String> selection = new ArrayList<String>(text);
         selectionDivision.clear();
-        selectionDivision = new ArrayList<String>(text);
-        //selection.add("check1");
-        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        selectionDivision = new ArrayList<>(text);
         for (String s : selectionDivision) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -315,8 +319,9 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < divisionItems.length; k++) {
-                    if (divisionItems[k].contains(tag.text.toString())) {
+                    if (divisionItems[k].contains(tag.text)) {
                         divisionSpinner.mSelection[k] = false;
+                        selectionDivision.remove(divisionItems[k]);
                     }
                 }
 
@@ -329,11 +334,8 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_addition = (TagView) findViewById(R.id.tagview_addition);
         tagview_addition.removeAllTags();
-        //List<String> selection = new ArrayList<String>(text);
         selectionAddItems.clear();
-        selectionAddItems = new ArrayList<String>(text);
-        //selection.add("check1");
-        //List<String> selection = startCountrySpinner.getSelectedStrings();
+        selectionAddItems = new ArrayList<>(text);
         for (String s : selectionAddItems) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -343,8 +345,9 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < additionalItems.length; k++) {
-                    if (additionalItems[k].contains(tag.text.toString())) {
+                    if (additionalItems[k].contains(tag.text)) {
                         additionalSpinner.mSelection[k] = false;
+                        selectionAddItems.remove(additionalItems[k]);
                     }
                 }
 
@@ -357,11 +360,8 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
 
         TagView tagview_showFields = (TagView) findViewById(R.id.tagview_showFields);
         tagview_showFields.removeAllTags();
-        // List<String> selection = new ArrayList<String>(text);
         selectionShowFields.clear();
         selectionShowFields = new ArrayList<>(text);
-        //selection.add("check1");
-        //List<String> selection = startCountrySpinner.getSelectedStrings();
         for (String s : selectionShowFields) {
             Tag tag = new Tag(s);
             tag.isDeletable = true;
@@ -371,8 +371,9 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onTagDeleted(Tag tag, int i) {
                 for (int k = 0; k < showFieldsItems.length; k++) {
-                    if (showFieldsItems[k].contains(tag.text.toString())) {
+                    if (showFieldsItems[k].contains(tag.text)) {
                         showFieldsSpinner.mSelection[k] = false;
+                        selectionShowFields.remove(showFieldsItems[k]);
                     }
                 }
 
