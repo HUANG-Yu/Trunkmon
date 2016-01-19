@@ -92,36 +92,6 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        /*
-        Button edit = (Button)findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                AlertDialog.Builder popup = new AlertDialog.Builder(ThresholdsDataActivity.this);
-                popup.setTitle("Edit");
-                popup.setMessage("Edit Fields");
-
-                popup.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
-                                Intent myIntent1 = new Intent(view.getContext(), LoginActivity.class);
-                            }
-                        });
-
-                popup.setNegativeButton("Reset",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                dialog.cancel();
-                            }
-                        });
-                popup.show();
-            }
-        });
-        */
-
     }
 
     public void recreate_json() throws JSONException {
@@ -137,6 +107,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     public void showResult(ProgressDialog progressDialog) throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
+            final int index = i;
             JSONObject cur = receivedArray.getJSONObject(i);
             LegendFlag flags = legendHighlighterLogic(cur);
             // adding header to each json object
@@ -200,8 +171,16 @@ public class ThresholdsDataActivity extends AppCompatActivity {
             record_tail = new TableRow(this);
             edit = new Button(this);
             edit.setText("Edit");
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    Intent intent = new Intent(getApplicationContext(), ThresholdsEditActivity.class);
+                    intent.putExtra("response", response.toString());
+                    intent.putExtra("index", Integer.toString(index));
+                    startActivity(intent);
+                }
+            });
             edit.setVisibility(View.VISIBLE);
-
             edit.setPadding(0, 0, 0, 0);
             edit.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

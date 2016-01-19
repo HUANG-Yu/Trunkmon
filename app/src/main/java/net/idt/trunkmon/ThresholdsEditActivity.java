@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -140,7 +141,15 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         reset.setHeight(50);
         reset.setBootstrapSize(DefaultBootstrapSize.SM);
         reset.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
-        reset.setText("Push");
+        reset.setText("Reset");
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
+                intent.putExtra("response", response.toString());
+                startActivity(intent);
+            }
+        });
         reset.setPadding(0, 0, 0, 0);
 
         save = new BootstrapButton(this);
@@ -149,7 +158,15 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         save.setHeight(60);
         save.setBootstrapSize(DefaultBootstrapSize.SM);
         save.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
-        save.setText("Push");
+        save.setText("Save");
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(), ThresholdsDataActivity.class);
+                intent.putExtra("response", response.toString());
+                startActivity(intent);
+            }
+        });
         save.setPadding(0, 0, 0, 0);
 
         record_tail.addView(reset);
