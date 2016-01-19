@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public interface Communicator1 {
 
-    public void responsestartCountry(ArrayList<String> s);
+    public void responseStartCountry(ArrayList<String> s);
     public void responseCountry(ArrayList<String> s);
     public void responseDivision(ArrayList<String> s);
 }

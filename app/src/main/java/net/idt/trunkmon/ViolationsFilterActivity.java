@@ -18,7 +18,7 @@ import util.MultiSelectionSpinner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import database.DBHandler;
+import database.VioDBHandler;
 
 import java.lang.String;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
     List<String> selectionAddItems = new ArrayList<>();
     List<String> selectionShowFields = new ArrayList<>();
 
-    DBHandler dbHandler;
+    VioDBHandler vioDbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         setSupportActionBar(toolbar);
 
         //Create database handler here
-        dbHandler = new DBHandler(this, null, null, 1);
+        vioDbHandler = new VioDBHandler(this, null, null, 1);
 
         getTimeItems();
         getCountryItems();
@@ -63,29 +63,29 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         timeDropdown = (MultiSelectionSpinner) findViewById(R.id.timeSpinner);
         timeDropdown.spinner_title = "Time";
         timeDropdown.setItems(timeItems);
-        responseTime(dbHandler.getPreTime());
+        responseTime(vioDbHandler.getPreTime());
 
         startCountrySpinner = (MultiSelectionSpinner) findViewById(R.id.startCountrySpinner);
         startCountrySpinner.spinner_title = "Start Country";
         startCountrySpinner.setItems(startCountryItems);
-        responseCountry(dbHandler.getPreStartCountry());
+        responseCountry(vioDbHandler.getPreStartCountry());
 
 
         divisionSpinner = (MultiSelectionSpinner) findViewById(R.id.divisionSpinner);
         divisionSpinner.spinner_title = "Division";
         divisionSpinner.setItems(divisionItems);
-        responseDivision(dbHandler.getPreDivision());
+        responseDivision(vioDbHandler.getPreDivision());
 
         additionalSpinner = (MultiSelectionSpinner) findViewById(R.id.additionalSpinner);
         additionalSpinner.spinner_title = "Additional items";
         additionalSpinner.setItems(additionalItems);
-        responseAddItems(dbHandler.getPreAdditional());
+        responseAddItems(vioDbHandler.getPreAdditional());
 
 
         showFieldsSpinner = (MultiSelectionSpinner) findViewById(R.id.showFieldsSpinner);
         showFieldsSpinner.spinner_title = "Showfields";
         showFieldsSpinner.setItems(showFieldsItems);
-        responseShowFields(dbHandler.getPreShowFields());
+        responseShowFields(vioDbHandler.getPreShowFields());
 
         BootstrapButton btn_apply = (BootstrapButton) findViewById(R.id.vApplyButton);
         btn_apply.setRounded(true);
@@ -93,11 +93,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
             @Override
             public void onClick(View v) {
 
-                dbHandler.addVioFilterTime(selectionTime);
-                dbHandler.addVioFilterStartCountry(selectionCountry);
-                dbHandler.addVioFilterDivision(selectionDivision);
-                dbHandler.addVioFilterAdd(selectionAddItems);
-                dbHandler.addVioFilterShowFileds(selectionShowFields);
+                vioDbHandler.addTime(selectionTime);
+                vioDbHandler.addStartCountry(selectionCountry);
+                vioDbHandler.addDivision(selectionDivision);
+                vioDbHandler.addAdditional(selectionAddItems);
+                vioDbHandler.addShowFileds(selectionShowFields);
 
                 String request;
                 //AWSResponse resp = new AWSResponse();
@@ -142,11 +142,11 @@ public class ViolationsFilterActivity extends AppCompatActivity implements Commu
         btn_pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                responseTime(dbHandler.getPreTime());
-                responseCountry(dbHandler.getPreStartCountry());
-                responseCountry(dbHandler.getPreDivision());
-                responseAddItems(dbHandler.getPreAdditional());
-                responseShowFields(dbHandler.getPreShowFields());
+                responseTime(vioDbHandler.getPreTime());
+                responseCountry(vioDbHandler.getPreStartCountry());
+                responseCountry(vioDbHandler.getPreDivision());
+                responseAddItems(vioDbHandler.getPreAdditional());
+                responseShowFields(vioDbHandler.getPreShowFields());
             }
         });
 
