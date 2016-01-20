@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ViolationsDataActivity extends AppCompatActivity {
+    final int enlargeScope = 10000;
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
@@ -167,7 +168,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
         JSONArray receivedArray = (JSONArray) response.get("records");
 
         for (int i = 0; i < receivedArray.length(); i++) {
-            JSONObject cur = receivedArray.getJSONObject(i);
+            final int index = i;
+            final JSONObject cur = receivedArray.getJSONObject(i);
             LegendFlag flags = legendHighlighterLogic(cur);
             // adding header to each json object
             record_header = new TableRow(this);
@@ -239,7 +241,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
             push_edit.setPadding(10,0,0,10);
 
             push = new BootstrapButton(this);
-
             push.setRounded(true);
             //push.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             //push.setLayoutParams(new LayoutParams("%", LayoutParams.WRAP_CONTENT));
@@ -249,7 +250,41 @@ public class ViolationsDataActivity extends AppCompatActivity {
             //push.setBootstrapSize("1g");
             push.setBootstrapSize(DefaultBootstrapSize.SM);
             push.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+            push.setId(i);
             push.setText("Push");
+            push.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    /*
+                    EditText hide = (EditText) findViewById(index * enlargeScope);
+                    int val;
+                    try {
+                        val = Integer.parseInt(cur.get("CCR").toString()) + Integer.parseInt(hide.getText().toString());
+                        cur.put("CCR", String.valueOf(val));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    int CCRIndex = 0;
+                    for (int k = 0; k < columns.size(); k++){
+                        if ("CCR".equals(columns.get(k))) {
+                            CCRIndex = k;
+                            break;
+                        }
+                    }
+                    final int tmp = CCRIndex;
+                    TextView change = (TextView)findViewById(index*columns.size() + tmp);
+                    try {
+                        change.setText(Integer.parseInt(cur.get("CCR").toString()) + Integer.parseInt(hide.getText().toString()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    hide.setVisibility(View.INVISIBLE);*/
+
+                    BootstrapButton hide = (BootstrapButton)findViewById(index);
+                    hide.setVisibility(View.INVISIBLE);
+
+                }
+            });
             push.setPadding(0, 0, 0, 0);
 
             pull = new BootstrapButton(this);
@@ -259,14 +294,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
             pull.setHeight(50);
             pull.setBootstrapSize(DefaultBootstrapSize.SM);
             pull.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
-            final int temp = i;
-            push.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("Row number: ",temp+"");
-
-                }
-            });
 
 /*
             pull.setPadding(10, 0, 30, 10);

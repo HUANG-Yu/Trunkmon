@@ -180,7 +180,6 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                JSONObject local = cur;
                 // record all the changes in the table
                 for (int i = 0; i < columns.length; i++) {
                     if (!fixFields.contains(columns[i])) {
