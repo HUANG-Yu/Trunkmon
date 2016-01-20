@@ -35,7 +35,8 @@
         android:layout_above="@+id/boot_btn_login"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Password">
+        android:hint="Password"
+        android:inputType="textPassword">
     </com.beardedhen.androidbootstrap.BootstrapEditText>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
