@@ -42,7 +42,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
         values2.put(COLUMN_ROLE, "visitor");
         db.insert(TABLE_USER, null, values2);
 
-        System.out.println("user data added");
+        // System.out.println("user data added");
     }
 
     @Override
@@ -52,9 +52,10 @@ public class UserDBHandler extends SQLiteOpenHelper {
     }
 
     public int checkUser(String username, String password){
-        System.out.println("check user");
-//        int role = -1;      //if wrong username or password, return -1
-                            //manager return 1, visitor return 0
+        // System.out.println("check user");
+        // int role = -1;
+        // if wrong username or password, return -1
+        //manager return 1, visitor return 0
         SQLiteDatabase db = getWritableDatabase();
 
         String query = "SELECT * FROM "+ TABLE_USER + " WHERE " + COLUMN_USERNAME + " = '" + username + "'";
