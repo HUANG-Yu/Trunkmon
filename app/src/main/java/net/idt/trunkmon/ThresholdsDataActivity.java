@@ -164,6 +164,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
                         case "Auto ALOC":
                             if (flags.ALOC) {
                                 column_value.setBackgroundColor(Color.DKGRAY);
+                                column_value.setTextColor(Color.LTGRAY);
                             }
                             break;
                         // add more if needed

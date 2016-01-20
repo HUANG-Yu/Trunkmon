@@ -72,6 +72,10 @@ public class UserDBHandler extends SQLiteOpenHelper {
      *          If user is valid, return role of this user, 0 for visitor and 1 for manager.
      */
     public int checkUser(String username, String password){
+        // System.out.println("check user");
+        // int role = -1;
+        // if wrong username or password, return -1
+        //manager return 1, visitor return 0
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+ TABLE_USER + " WHERE " + COLUMN_USERNAME + " = '" + username + "'";
         Cursor c = db.rawQuery(query, null);
@@ -90,4 +94,5 @@ public class UserDBHandler extends SQLiteOpenHelper {
             return 0;
         }
     }
+
 }
