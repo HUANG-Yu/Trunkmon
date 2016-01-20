@@ -33,6 +33,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         super(context, DATABSE_NAME, factory, DATABASE_VERSION);
     }
 
+    /**
+     * This function is called when the database file did not exist and was just created.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_TIME + "(" +
@@ -61,6 +65,13 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.execSQL(query);
     }
 
+    /**
+     * This function is called when the database file exists but the stored version number is lower
+     * than requested in constructor
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIME);
@@ -71,6 +82,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+    /**
+     * This function adds a list of time strings into database
+     * @param time
+     */
     public void addTime(List<String> time){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_TIME);
@@ -83,6 +98,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * This function gets all time strings from database
+     * @return An arraylist of time strings
+     */
     public ArrayList<String> getPreTime(){
         ArrayList<String> list = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -101,6 +120,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         return list;
     }
 
+    /**
+     * This function adds a list of start country strings into database
+     * @param startCountries
+     */
     public void addStartCountry(List<String> startCountries){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_START_COUNTRY);
@@ -112,6 +135,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * This function gets all start countries from database
+     * @return An arraylist of start country strings
+     */
     public ArrayList<String> getPreStartCountry(){
         ArrayList<String> list = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -130,6 +157,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         return list;
     }
 
+    /**
+     * This function adds a list of division strings into database
+     * @param divisions
+     */
     public void addDivision(List<String> divisions){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_DIVISION);
@@ -141,6 +172,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * This function gets all divisions from database
+     * @return An arraylist of division strings
+     */
     public ArrayList<String> getPreDivision(){
         ArrayList<String> list = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -159,6 +194,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         return list;
     }
 
+    /**
+     * This function adds a list of additional items strings into database
+     * @param addItems
+     */
     public void addAdditional(List<String> addItems){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_ADDITIONAL_ITEMS);
@@ -170,6 +209,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * This function gets all additional items from database
+     * @return An arraylist of additional item strings
+     */
     public ArrayList<String> getPreAdditional(){
         ArrayList<String> list = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -188,6 +231,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         return list;
     }
 
+    /**
+     * This function adds a list of show fields strings into database
+     * @param showFields
+     */
     public void addShowFileds(List<String> showFields){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_SHOW_FIELDS);
@@ -199,6 +246,10 @@ public class VioDBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * This function gets all show fields from database
+     * @return An arraylist of show field strings
+     */
     public ArrayList<String> getPreShowFields(){
         ArrayList<String> list = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();

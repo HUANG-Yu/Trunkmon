@@ -19,6 +19,10 @@ public class UserDBHandler extends SQLiteOpenHelper {
         super(context, DATABSE_NAME, factory, DATABASE_VERSION);
     }
 
+    /**
+     * This function is called when the database file did not exist and was just created.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         System.out.println("user database onCreate");
@@ -45,18 +49,30 @@ public class UserDBHandler extends SQLiteOpenHelper {
         System.out.println("user data added");
     }
 
+    /**
+     * This function is called when the database file exists but the stored version number is lower
+     * than requested in constructor
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         onCreate(db);
     }
 
+    /**
+     * This function is called by LoginActivity.
+     * Get username and password, check if they are valid in local database.
+     * If
+     * @param username
+     * @param password
+     * @return If username and password doesn't match, return -1;
+     *          If user is valid, return role of this user, 0 for visitor and 1 for manager.
+     */
     public int checkUser(String username, String password){
-        System.out.println("check user");
-//        int role = -1;      //if wrong username or password, return -1
-                            //manager return 1, visitor return 0
         SQLiteDatabase db = getWritableDatabase();
-
         String query = "SELECT * FROM "+ TABLE_USER + " WHERE " + COLUMN_USERNAME + " = '" + username + "'";
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -73,21 +89,5 @@ public class UserDBHandler extends SQLiteOpenHelper {
             db.close();
             return 0;
         }
-    }
-
-    private void displayTable(){
-        System.out.println("display table");
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_USER;
-        Cursor c = db.rawQuery(query, null);
-        c.moveToFirst();
-
-        while(!c.isAfterLast()){
-            if(c.getString(c.getColumnIndex(COLUMN_USERNAME))!= null){
-                System.out.println(c.getString(c.getColumnIndex(COLUMN_USERNAME)));
-            }
-            c.moveToNext();
-        }
-        db.close();
     }
 }
