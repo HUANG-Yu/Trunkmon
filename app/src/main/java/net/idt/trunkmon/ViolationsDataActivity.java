@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Set;
 
 public class ViolationsDataActivity extends AppCompatActivity {
-    final int enlargeScope = 10000;
     TableLayout tl;
     TableRow tr;
     TextView column_name, column_value;
@@ -54,7 +53,6 @@ public class ViolationsDataActivity extends AppCompatActivity {
     EditText push_edit;
     BootstrapButton push, pull;
 
-
     List<String> columns;
 
     JSONObject request;
@@ -63,6 +61,11 @@ public class ViolationsDataActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
     Set<String> legendSet = new HashSet<String>();
+
+    MyApplication myApplication;
+
+    // setting id for column_value:CCR, push and pull buttons, push_edit editText
+    int count = 0;
 
     /**
      * Inner class of ViolationsDataActivity
@@ -100,6 +103,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApplication =(MyApplication)getApplicationContext();
         /* setContentView(R.layout.activity_violations_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -207,6 +211,8 @@ public class ViolationsDataActivity extends AppCompatActivity {
                 if (legendSet.contains(cur_column)) {
                     switch(cur_column) {
                         case "CCR":
+                            // !!!! setting CCR id
+                            // column_value.setId(count++);
                             if (flags.CCR) {
                                 column_value.setBackgroundColor(Color.YELLOW);
                             }
@@ -228,35 +234,33 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
-            // adding buttons to modify the current record
-            record_tail = new TableRow(this);
-            //record_tail.setWeightSum(3);
+            if ("manager".equals(myApplication.getUserRole())) {
+                // adding buttons to modify the current record
+                record_tail = new TableRow(this);
 
-            push_edit = new EditText(this);
-            push_edit.setText("5%");
-            push_edit.setPadding(0, 0, 0, 0);
-            push_edit.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            push_edit.setWidth(30);
-            push_edit.setPadding(10,0,0,10);
+                push_edit = new EditText(this);
+                push_edit.setText("5%");
+                push_edit.setPadding(0, 0, 0, 0);
+                push_edit.setLayoutParams(new LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                push_edit.setWidth(30);
+                // push_edit.setId(count++);
+                push_edit.setPadding(10,0,0,10);
 
-            push = new BootstrapButton(this);
-            push.setRounded(true);
-            //push.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            //push.setLayoutParams(new LayoutParams("%", LayoutParams.WRAP_CONTENT));
-            push.setWidth(80);
-            push.setHeight(50);
-            // push.setBootstrapMode("primary");
-            //push.setBootstrapSize("1g");
-            push.setBootstrapSize(DefaultBootstrapSize.SM);
-            push.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
-            push.setId(i);
-            push.setText("Push");
-            push.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
+                push = new BootstrapButton(this);
+                push.setRounded(true);
+                push.setWidth(80);
+                push.setHeight(50);
+                push.setBootstrapSize(DefaultBootstrapSize.SM);
+                push.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                //push.setId(count++);
+                push.setId(index);
+                push.setText("Push");
+                push.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                    BootstrapButton hideButton = (BootstrapButton)findViewById(index);
                     /*
-                    EditText hide = (EditText) findViewById(index * enlargeScope);
                     int val;
                     try {
                         val = Integer.parseInt(cur.get("CCR").toString()) + Integer.parseInt(hide.getText().toString());
@@ -279,36 +283,35 @@ public class ViolationsDataActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     hide.setVisibility(View.INVISIBLE);*/
+                    //hideEditText.setVisibility(View.INVISIBLE);
 
-                    BootstrapButton hide = (BootstrapButton)findViewById(index);
-                    hide.setVisibility(View.INVISIBLE);
+                    hideButton.setVisibility(View.INVISIBLE);
 
-                }
-            });
-            push.setPadding(0, 0, 0, 0);
+                    }
+                });
+                push.setPadding(0, 0, 0, 0);
 
-            pull = new BootstrapButton(this);
-            pull.setText("Pull");
-            pull.setRounded(true);
-            pull.setWidth(80);
-            pull.setHeight(50);
-            pull.setBootstrapSize(DefaultBootstrapSize.SM);
-            pull.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                pull = new BootstrapButton(this);
+                pull.setText("Pull");
+                pull.setRounded(true);
+                pull.setWidth(80);
+                pull.setHeight(50);
+                pull.setBootstrapSize(DefaultBootstrapSize.SM);
+                pull.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
 
 /*
             pull.setPadding(10, 0, 30, 10);
             pull.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 */
-            record_tail.addView(pull);
-            record_tail.addView(push_edit);
-            record_tail.addView(push);
+                record_tail.addView(pull);
+                record_tail.addView(push_edit);
+                record_tail.addView(push);
 
-            tl.addView(record_tail, new TableLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT));
-
-            //tl.addView(record_tail);
+                tl.addView(record_tail, new TableLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT));
+            }
         }
         progressDialog.dismiss();
 

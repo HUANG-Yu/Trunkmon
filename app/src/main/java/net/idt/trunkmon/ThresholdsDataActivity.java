@@ -56,6 +56,8 @@ public class ThresholdsDataActivity extends AppCompatActivity {
 
     Set<String> legendSet = new HashSet<String>();
 
+    MyApplication myApplication;
+
     private class LegendFlag {
         boolean CCR;
         boolean ALOC;
@@ -77,15 +79,9 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         /* setContentView(R.layout.activity_violations_data);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        tl = (TableLayout) findViewById(R.id.violations_table);
-        */
+        myApplication =(MyApplication)getApplicationContext();
         try {
             recreate_json();
-            //  generateColumns();
-            // showResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -271,31 +267,31 @@ public class ThresholdsDataActivity extends AppCompatActivity {
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.WRAP_CONTENT));
             }
-            // adding buttons to modify the current record
-            record_tail = new TableRow(this);
-            edit = new Button(this);
-            edit.setText("Edit");
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    Intent intent = new Intent(getApplicationContext(), ThresholdsEditActivity.class);
-                    intent.putExtra("response", response.toString());
-                    intent.putExtra("index", Integer.toString(index));
-                    startActivity(intent);
-                }
-            });
-            edit.setVisibility(View.VISIBLE);
-            edit.setPadding(0, 0, 0, 0);
-            edit.setLayoutParams(new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            if ("manager".equals(myApplication.getUserRole())) {
+                // adding buttons to modify the current record
+                record_tail = new TableRow(this);
+                edit = new Button(this);
+                edit.setText("Edit");
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        Intent intent = new Intent(getApplicationContext(), ThresholdsEditActivity.class);
+                        intent.putExtra("response", response.toString());
+                        intent.putExtra("index", Integer.toString(index));
+                        startActivity(intent);
+                    }
+                });
+                edit.setVisibility(View.VISIBLE);
+                edit.setPadding(0, 0, 0, 0);
+                edit.setLayoutParams(new LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-            record_tail.addView(edit);
+                record_tail.addView(edit);
 
-            tl.addView(record_tail, new TableLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT));
-
-
+                tl.addView(record_tail, new TableLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT));
+            }
         }
         progressDialog.dismiss();
     }
