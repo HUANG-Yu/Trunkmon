@@ -55,6 +55,7 @@ public class ViolationsDataActivity extends AppCompatActivity {
 
     List<String> columns;
 
+    // the filtered data
     JSONObject request;
     JSONObject response;
 

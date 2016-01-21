@@ -38,14 +38,18 @@ public class ThresholdsEditActivity extends AppCompatActivity {
     TextView head_info;
     EditText edit;
     BootstrapButton reset, save;
+    // the JSONObject index in the JSONArray that needs to be edited
     int index;
 
+    // the JSONObject received from ThresholdsDataActivity
     JSONObject response;
+    // the unmodified JSONObject
     JSONObject copy;
 
     String[] columns = {"Location", "Division", "Tod", "Auto CCR", "Auto ALOC",
             "Auto Attempts", "Auto Memo", "Rev CCR", "Rev ALOC", "Rev Attempts",
             "Rev Memo"};
+    // the hashSet to remember which fields are not editable
     Set<String> fixFields = new HashSet<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -61,7 +65,6 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tl = (TableLayout) findViewById(R.id.edit_table);
-
         try {
             recreate_json();
             showRecord();
@@ -73,18 +76,27 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    /**
+     * The moethod is used to get the whole JSONObject from ThresholdsDataActivity and get the index
+     * of the JSONObject that needs to be modified.
+     * @throws JSONException
+     */
     public void recreate_json() throws JSONException {
         Intent intent = getIntent();
         response = new JSONObject(intent.getExtras().getString("response"));
         copy = new JSONObject(intent.getExtras().getString("response"));
-        Log.i("request", intent.getExtras().getString("response"));
+        // Log.i("request", intent.getExtras().getString("response"));
         index = Integer.parseInt(intent.getExtras().getString("index"));
     }
 
+    /**
+     * The method is used to output the JSONObject in table format that represents a record.
+     * @throws JSONException
+     */
     public void showRecord() throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         final JSONObject cur = receivedArray.getJSONObject(index);
-        Log.i("current record", cur.toString());
+        // Log.i("current record", cur.toString());
         //setting editable fields in editable set
         fixFields.add("Location");
         fixFields.add("Division");
@@ -103,7 +115,7 @@ public class ThresholdsEditActivity extends AppCompatActivity {
         tl.addView(record_header, new TableLayout.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
-
+        // create the table using the JSONObject
         for (int i = 0; i < columns.length; i++) {
             tr = new TableRow(this);
             tr.setLayoutParams(new TableRow.LayoutParams(
@@ -138,7 +150,6 @@ public class ThresholdsEditActivity extends AppCompatActivity {
                 tr.addView(edit);
 
             }
-
             tl.addView(tr, new TableLayout.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
@@ -243,7 +254,6 @@ public class ThresholdsEditActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
@@ -263,7 +273,6 @@ public class ThresholdsEditActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(

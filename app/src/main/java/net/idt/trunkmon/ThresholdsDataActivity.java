@@ -50,19 +50,31 @@ public class ThresholdsDataActivity extends AppCompatActivity {
     String[] columns = {"Location", "Division", "Tod", "Auto CCR", "Auto ALOC",
         "Auto Attempts", "Auto Memo", "Rev CCR", "Rev ALOC", "Rev Attempts",
         "Rev Memo"};
-
+    // the filtered data sent from ThresholdsFilterActivity
     JSONObject request;
+    // tje result data get from the AWS
     JSONObject response;
-
+    // the legendSet contains the column names that need to be colored if necessary
     Set<String> legendSet = new HashSet<String>();
-
+    // the global information to get the user role
     MyApplication myApplication;
 
+    /**
+     * The inner class to record whether the colored columns.
+     * A grid on the table needs to be colored if their corresponding flag in this class is true.
+     * Otherwisel flase.
+     */
     private class LegendFlag {
         boolean CCR;
         boolean ALOC;
     }
 
+    /**
+     * The method check if a grid needs to be colored for a given JSONObject
+     * @param cur the given JSONObject
+     * @return flags the inner class containing the highlighted grids information
+     * @throws JSONException
+     */
     private LegendFlag legendHighlighterLogic(JSONObject cur) throws JSONException {
         LegendFlag flags = new LegendFlag();
         legendSet.add("Auto CCR");
@@ -90,6 +102,10 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    /**
+     * The method create the JSONObjec using the String sent from the THresholdsFilterAcitivity
+     * @throws JSONException
+     */
     public void recreate_json() throws JSONException {
         Intent intent = getIntent();
         if (intent.getExtras().get("prevActivity").equals("ThresholdsEditActivity")) {
@@ -111,6 +127,10 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * The method shows the result data in table format when it's redirected from ThresholdsEditActivitys
+     * @throws JSONException
+     */
     public void showResult() throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
@@ -131,7 +151,7 @@ public class ThresholdsDataActivity extends AppCompatActivity {
             tl.addView(record_header, new TableLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT));
-
+            // draw each rocords row by row using the column_name and column value
             for (int j = 0; j < columns.length; j++) {
                 tr = new TableRow(this);
                 tr.setLayoutParams(new LayoutParams(
@@ -204,6 +224,10 @@ public class ThresholdsDataActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The method shows the result data in table format when it's redirected from ThresholdsFilterActivitys
+     * @throws JSONException
+     */
     public void showResult(ProgressDialog progressDialog) throws JSONException {
         JSONArray receivedArray = (JSONArray) response.get("records");
         for (int i = 0; i < receivedArray.length(); i++) {
@@ -330,6 +354,9 @@ public class ThresholdsDataActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * The inner class that get the JSONObject from the AWS
+     */
     class AWSResponse extends AsyncTask<String, Void, String> {
 
         private Exception exception;
