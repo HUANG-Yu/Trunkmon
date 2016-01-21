@@ -3,7 +3,7 @@ package net.idt.trunkmon;
 import java.util.ArrayList;
 
 /**
- * Created by Rama on 1/10/2016.
+ * Implemented by ViolationsFilterActivity
  */
 public interface Communicator {
 

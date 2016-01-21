@@ -2,24 +2,17 @@ package net.idt.trunkmon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.util.Log;
-import android.widget.Button;
-import android.content.Intent;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 
 import database.UserDBHandler;
-import database.VioDBHandler;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "login log message";
@@ -62,13 +55,11 @@ public class LoginActivity extends AppCompatActivity {
                     et_boot_password.setText("");
                 }else if(role == 1){
                     myApplication.setUserRole("manager");
-                    System.out.println("role is manager");
                     Intent intent = new Intent(getApplicationContext(),SelectionsActivity.class);
                     Log.i(TAG, "login button clicked");
                     startActivity(intent);
                 }else{
                     myApplication.setUserRole("visitor");
-                    System.out.println("role is visitor");
                     Intent intent = new Intent(getApplicationContext(),SelectionsActivity.class);
                     Log.i(TAG, "login button clicked");
                     startActivity(intent);
